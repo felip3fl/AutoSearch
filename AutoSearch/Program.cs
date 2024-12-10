@@ -13,7 +13,10 @@ namespace AutoSearch
         
         static void Main(string[] args)
         {
-            MoveMouse(50,50);
+            MoveMouse(300,30);
+            
+            SendKeys.SendWait("^v");
+            SendKeys.SendWait("{ENTER}");
         }
 
         private static void MoveMouse(int positionX, int positionY)
