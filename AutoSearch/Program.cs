@@ -3,20 +3,64 @@ using System.Globalization;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace AutoSearch
 {
     public class AutoSearch
     {
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern void mouse_event(uint dwFlags, int dx, int dy, uint dwData, UIntPtr dwExtraInfo);
+        
+        private const uint MOUSEEVENTF_LEFTDOWN = 0x02; // Clique esquerdo pressionado
+        private const uint MOUSEEVENTF_LEFTUP = 0x04;   // Clique esquerdo liberado
+        
         [DllImport("user32.dll")]
         static extern bool SetCursorPos(int X, int Y);
-        
+
         static void Main(string[] args)
         {
-            MoveMouse(300,30);
+            var fileAddress = @"C:\Users\Felipe\OneDrive\Music\This is All\zsync.spotdl";
+            var jsonFile = File.ReadAllText(fileAddress);
+            Regex regex = new Regex(@"""name"":\s*""([^""]*)""");
+            MatchCollection matches = regex.Matches(jsonFile);
             
-            SendKeys.SendWait("^v");
-            SendKeys.SendWait("{ENTER}");
+            for (int i = 0; i < 15; i++)
+            {
+                Random rnd = new Random();
+                int musicIndex  = rnd.Next(1, matches.Count);
+                
+                int sleepInSeconds  = rnd.Next(1, matches.Count);
+            
+                SetClipboard(matches[musicIndex].Groups[1].Value);
+            
+                System.Threading.Thread.Sleep(1000);
+                MoveMouse(225, 130);
+                
+                System.Threading.Thread.Sleep(1000);
+                MouseClick(225, 180);
+
+                System.Threading.Thread.Sleep(1000);
+                SendKeys.SendWait("^a");
+            
+                System.Threading.Thread.Sleep(1000);
+                SendKeys.SendWait("^v");
+                
+                System.Threading.Thread.Sleep(1000);
+                MoveMouse(225, 180);
+                
+                System.Threading.Thread.Sleep(1000);
+                MouseClick(225, 180);
+            
+                // System.Threading.Thread.Sleep(1000);
+                // SendKeys.SendWait("{ENTER}");
+            }
+            
+            System.Threading.Thread.Sleep(3000);
+            
+            // SendKeys.SendWait("{DELETE}");
+            // System.Threading.Thread.Sleep(1000);
+            
         }
 
         private static void MoveMouse(int positionX, int positionY)
@@ -24,8 +68,24 @@ namespace AutoSearch
             SetCursorPos(positionX, positionY);
 
             Console.WriteLine($"Cursor movido para a posição ({positionX}, {positionY})");
+            
+        }
+        
+        private static void MouseClick(int positionX, int positionY)
+        {
+            mouse_event(MOUSEEVENTF_LEFTDOWN, positionX, positionY, 0, UIntPtr.Zero); // Pressiona o botão
+            mouse_event(MOUSEEVENTF_LEFTUP, positionX, positionY, 0, UIntPtr.Zero);   // Libera o botão
         }
 
+        private static void SetClipboard(string text)
+        {
+            System.Threading.Thread.Sleep(500);
+            var thread = new Thread(() => Clipboard.SetText(text));
+            thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
+            thread.Start();
+            thread.Join();
+        }
+        
     }
 }
 
