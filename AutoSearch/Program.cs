@@ -25,38 +25,38 @@ namespace AutoSearch
             Regex regex = new Regex(@"""name"":\s*""([^""]*)""");
             MatchCollection matches = regex.Matches(jsonFile);
             
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 35; i++)
             {
                 Random rnd = new Random();
                 int musicIndex  = rnd.Next(1, matches.Count);
-                
-                int sleepInSeconds  = rnd.Next(1, matches.Count);
             
                 SetClipboard(matches[musicIndex].Groups[1].Value);
             
-                System.Threading.Thread.Sleep(1000);
+                int sleepInSeconds  = rnd.Next(1, 3);
+                
+                System.Threading.Thread.Sleep(1001*sleepInSeconds);
                 MoveMouse(225, 130);
                 
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(1002*sleepInSeconds);
                 MouseClick(225, 180);
 
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(1030*sleepInSeconds);
                 SendKeys.SendWait("^a");
             
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(1040*sleepInSeconds);
                 SendKeys.SendWait("^v");
                 
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(1050*sleepInSeconds);
                 MoveMouse(225, 180);
                 
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(1060*sleepInSeconds);
                 MouseClick(225, 180);
             
                 // System.Threading.Thread.Sleep(1000);
                 // SendKeys.SendWait("{ENTER}");
             }
             
-            System.Threading.Thread.Sleep(3000);
+            System.Threading.Thread.Sleep(2500);
             
             // SendKeys.SendWait("{DELETE}");
             // System.Threading.Thread.Sleep(1000);
