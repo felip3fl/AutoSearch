@@ -73,17 +73,26 @@ namespace AutoSearch
         
         private static void MouseClick(int positionX, int positionY)
         {
-            mouse_event(MOUSEEVENTF_LEFTDOWN, positionX, positionY, 0, UIntPtr.Zero); // Pressiona o botão
-            mouse_event(MOUSEEVENTF_LEFTUP, positionX, positionY, 0, UIntPtr.Zero);   // Libera o botão
+            mouse_event(MOUSEEVENTF_LEFTDOWN, positionX, positionY, 0, UIntPtr.Zero);
+            mouse_event(MOUSEEVENTF_LEFTUP, positionX, positionY, 0, UIntPtr.Zero); 
         }
 
         private static void SetClipboard(string text)
         {
-            System.Threading.Thread.Sleep(500);
-            var thread = new Thread(() => Clipboard.SetText(text));
-            thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
-            thread.Start();
-            thread.Join();
+            try
+            {
+                var thread = new Thread(() => Clipboard.SetText(text));
+                thread.SetApartmentState(ApartmentState.STA); 
+                thread.Start();
+                thread.Join();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("ERROR: SetClipboard");
+                System.Threading.Thread.Sleep(1000);
+                SetClipboard(text);
+            }
+
         }
         
     }
