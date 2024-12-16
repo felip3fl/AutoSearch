@@ -25,13 +25,19 @@ namespace AutoSearch
             Regex regex = new Regex(@"""name"":\s*""([^""]*)""");
             MatchCollection matches = regex.Matches(jsonFile);
             
-            for (int i = 0; i < 35; i++)
+            var numbersOfSearches = 35;
+            
+            for (int i = 0; i < numbersOfSearches; i++)
             {
                 Random rnd = new Random();
                 int musicIndex  = rnd.Next(1, matches.Count);
-            
-                SetClipboard(matches[musicIndex].Groups[1].Value);
-            
+
+                var selectedValue = matches[musicIndex].Groups[1].Value;
+                SetClipboard(selectedValue);
+
+                Console.WriteLine($"[{DateTime.Now.ToLongTimeString()}] Search {i+1} of {numbersOfSearches}" +
+                                  $" - Music: {selectedValue}");
+                
                 int sleepInSeconds  = rnd.Next(1, 3);
                 
                 System.Threading.Thread.Sleep(1001*sleepInSeconds);
@@ -66,9 +72,6 @@ namespace AutoSearch
         private static void MoveMouse(int positionX, int positionY)
         {
             SetCursorPos(positionX, positionY);
-
-            Console.WriteLine($"Cursor movido para a posição ({positionX}, {positionY})");
-            
         }
         
         private static void MouseClick(int positionX, int positionY)
