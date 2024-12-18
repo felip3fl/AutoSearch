@@ -26,7 +26,9 @@ namespace AutoSearch
             MatchCollection matches = regex.Matches(jsonFile);
             
             var numbersOfSearches = 35;
-            
+
+            Countdown(5);
+
             for (int i = 0; i < numbersOfSearches; i++)
             {
                 Random rnd = new Random();
@@ -67,6 +69,17 @@ namespace AutoSearch
             // SendKeys.SendWait("{DELETE}");
             // System.Threading.Thread.Sleep(1000);
             
+        }
+
+        private static void Countdown(int timeInSeconds)
+        {
+            Console.Write("Starting in ");
+            for (int i = 0; i < timeInSeconds; i++)
+            {
+                Console.Write((timeInSeconds- i) + " ");
+                System.Threading.Thread.Sleep(1000);
+            }
+            Console.WriteLine(" ");
         }
 
         private static void MoveMouse(int positionX, int positionY)
