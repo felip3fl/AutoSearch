@@ -27,7 +27,7 @@ namespace AutoSearch
             
             var numbersOfSearches = 35;
 
-            Countdown(5);
+            Countdown(3);
 
             for (int i = 0; i < numbersOfSearches; i++)
             {
@@ -100,7 +100,7 @@ namespace AutoSearch
                 var thread = new Thread(() => Clipboard.SetText(text));
                 thread.SetApartmentState(ApartmentState.STA); 
                 thread.Start();
-                thread.Join();
+                thread.Join();              
             }
             catch (Exception e)
             {
