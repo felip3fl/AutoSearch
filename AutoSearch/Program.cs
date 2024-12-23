@@ -1,9 +1,6 @@
-﻿using System;
-using System.Globalization;
-using System.Drawing;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
-using System.Text.RegularExpressions;
+﻿using System.Runtime.InteropServices;
+using AutoSearch.Models;
+using Newtonsoft.Json;
 
 namespace AutoSearch
 {
@@ -20,21 +17,20 @@ namespace AutoSearch
 
         static void Main(string[] args)
         {
-            var fileAddress = @"C:\Users\Felipe\OneDrive\Music\This is All\zsync.spotdl";
+            var fileAddress = "Lists\\v1\\List.json";
             var jsonFile = File.ReadAllText(fileAddress);
-            Regex regex = new Regex(@"""name"":\s*""([^""]*)""");
-            MatchCollection matches = regex.Matches(jsonFile);
+            var listOfSearch = JsonConvert.DeserializeObject<ListOfSearch>(jsonFile);
             
-            var numbersOfSearches = 35;
+            var numbersOfSearches = listOfSearch.Name.Count();
 
             Countdown(3);
 
             for (int i = 0; i < numbersOfSearches; i++)
             {
                 Random rnd = new Random();
-                int musicIndex  = rnd.Next(1, matches.Count);
+                int musicIndex  = rnd.Next(1, numbersOfSearches);
 
-                var selectedValue = matches[musicIndex].Groups[1].Value;
+                var selectedValue = listOfSearch.Name[musicIndex];
                 SetClipboard(selectedValue);
 
                 Console.WriteLine($"[{DateTime.Now.ToLongTimeString()}] Search {i+1} of {numbersOfSearches}" +
