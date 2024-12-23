@@ -17,44 +17,76 @@ namespace AutoSearch
 
         static void Main(string[] args)
         {
-            var fileAddress = "Lists\\v1\\List.json";
+            Console.WriteLine("Enter the name of the list: ");
+            Console.WriteLine("1 - Music");
+            Console.WriteLine("2 - Pokemon");
+            Console.WriteLine("3 - Cities");
+            
+            var listNumber = Console.ReadLine();
+            var listName = "";
+                
+            switch (listNumber)
+            {
+                case "1":
+                    listName = "Music";
+                    break;
+                case "2":
+                    listName = "Pokemon";
+                    break;
+                case "3":
+                    listName = "Cities";
+                    break;
+                default:
+                    listName = "Music";
+                    break;
+            }
+            
+            var fileAddress = $"Lists\\v1\\{listName}.json";
             var jsonFile = File.ReadAllText(fileAddress);
             var listOfSearch = JsonConvert.DeserializeObject<ListOfSearch>(jsonFile);
             
-            var numbersOfSearches = listOfSearch.Name.Count();
+            var numbersOfSearches = 35;
 
-            Countdown(3);
+            // Countdown(3);
 
             for (int i = 0; i < numbersOfSearches; i++)
             {
+                var mousePositionX = 225;
+                var mousePositiony = 130;
+                
                 Random rnd = new Random();
                 int musicIndex  = rnd.Next(1, numbersOfSearches);
 
                 var selectedValue = listOfSearch.Name[musicIndex];
-                SetClipboard(selectedValue);
 
                 Console.WriteLine($"[{DateTime.Now.ToLongTimeString()}] Search {i+1} of {numbersOfSearches}" +
-                                  $" - Music: {selectedValue}");
+                                  $" - Text: {selectedValue}");
+                
+                // Clipboard.SetText(selectedValue);
+                SetClipboard(selectedValue);
                 
                 int sleepInSeconds  = rnd.Next(1, 3);
                 
                 System.Threading.Thread.Sleep(1001*sleepInSeconds);
-                MoveMouse(225, 130);
+                MoveMouse(mousePositionX, mousePositiony);
                 
                 System.Threading.Thread.Sleep(1002*sleepInSeconds);
-                MouseClick(225, 180);
+                MouseClick(mousePositionX, mousePositiony);
 
                 System.Threading.Thread.Sleep(1030*sleepInSeconds);
                 SendKeys.SendWait("^a");
             
                 System.Threading.Thread.Sleep(1040*sleepInSeconds);
                 SendKeys.SendWait("^v");
+
+                mousePositionX = 225;
+                mousePositiony = 180;
                 
                 System.Threading.Thread.Sleep(1050*sleepInSeconds);
-                MoveMouse(225, 180);
+                MoveMouse(mousePositionX, mousePositiony);
                 
                 System.Threading.Thread.Sleep(1060*sleepInSeconds);
-                MouseClick(225, 180);
+                MouseClick(mousePositionX, mousePositiony);
             
                 // System.Threading.Thread.Sleep(1000);
                 // SendKeys.SendWait("{ENTER}");
