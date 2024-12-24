@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Drawing;
+using System.Runtime.InteropServices;
 using AutoSearch.Models;
 using AutoSearch.Tools;
 using Newtonsoft.Json;
@@ -19,12 +20,19 @@ namespace AutoSearch
 
         static void Main(string[] args)
         {
+            printFL();
+
             var keyTools = new KeyTools();
-        
-            Console.WriteLine("Enter the name of the list: ");
-            Console.WriteLine("1 - Music");
-            Console.WriteLine("2 - Pokemon");
-            Console.WriteLine("3 - Cities");
+            var clipboard = new ClipboardHelper();
+
+            clipboard.SetTextClipboard("testClipboard");
+
+  
+
+            Console.WriteLine("Choose a list:");
+            Console.WriteLine("1 Music");
+            Console.WriteLine("2 Pokemon");
+            Console.WriteLine("3 City");
             
             var listNumber = Console.ReadLine();
             var listName = "";
@@ -38,7 +46,7 @@ namespace AutoSearch
                     listName = "Pokemon";
                     break;
                 case "3":
-                    listName = "Cities";
+                    listName = "City";
                     break;
                 default:
                     listName = "Music";
@@ -59,41 +67,61 @@ namespace AutoSearch
                 var mousePositiony = 130;
                 
                 Random rnd = new Random();
-                int musicIndex  = rnd.Next(1, numbersOfSearches);
+                int musicIndex  = rnd.Next(1, listOfSearch.Name.Count());
 
                 var selectedValue = listOfSearch.Name[musicIndex];
 
-                Console.WriteLine($"[{DateTime.Now.ToLongTimeString()}] Search {i+1} of {numbersOfSearches}" +
-                                  $" - Text: {selectedValue}");
+                Console.WriteLine($"[{DateTime.Now.ToLongTimeString()}] " +
+                                  $"Search {i+1} of {numbersOfSearches} " +
+                                  $"- {listName} {musicIndex}: {selectedValue}");
                 
-                SetClipboard(selectedValue);
+                clipboard.SetTextClipboard(selectedValue);
                 
-                int sleepInSeconds  = rnd.Next(1, 3);
+                int sleepInSeconds  = rnd.Next(1, 4);
                 
-                System.Threading.Thread.Sleep(1001*sleepInSeconds);
                 MoveMouse(mousePositionX, mousePositiony);
                 
-                System.Threading.Thread.Sleep(1002*sleepInSeconds);
+                System.Threading.Thread.Sleep(500*sleepInSeconds);
                 MouseClick(mousePositionX, mousePositiony);
 
-                System.Threading.Thread.Sleep(1030*sleepInSeconds);
+                System.Threading.Thread.Sleep(500*sleepInSeconds);
                 keyTools.SendCtrlA();
             
-                System.Threading.Thread.Sleep(1040*sleepInSeconds);
+                System.Threading.Thread.Sleep(500*sleepInSeconds);
                 keyTools.SendCtrlV();
 
                 mousePositionX = 225;
                 mousePositiony = 180;
                 
-                System.Threading.Thread.Sleep(1050*sleepInSeconds);
+                System.Threading.Thread.Sleep(500*sleepInSeconds);
                 MoveMouse(mousePositionX, mousePositiony);
                 
-                System.Threading.Thread.Sleep(1060*sleepInSeconds);
+                System.Threading.Thread.Sleep(500);
                 MouseClick(mousePositionX, mousePositiony);
-                
+
+                System.Threading.Thread.Sleep(3000);
             }
             
-            System.Threading.Thread.Sleep(2500);
+            
+        }
+
+        private static void printFL()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(@"____________________________           ");
+            Console.WriteLine(@"\  ________________________ \          ");
+            Console.WriteLine(@" \ \        ____   __      \ \         ");
+            Console.WriteLine(@"  \ \      / ___\ /\ \      \ \        ");
+            Console.WriteLine(@"   \ \    /\ \__/ \ \ \      \ \       ");
+            Console.WriteLine(@"    \ \   \ \  __\ \ \ \      \ \      ");
+            Console.WriteLine(@"     \ \   \ \ \_/  \ \ \      \ \     ");
+            Console.WriteLine(@"      \ \   \ \ \    \ \ \___   \ \    ");
+            Console.WriteLine(@"       \ \   \ \_\    \ \____\   \ \   ");
+            Console.WriteLine(@"        \ \   \/_/     \/____/    \ \  ");
+            Console.WriteLine(@"         \ \_______________________\ \ ");
+            Console.WriteLine(@"          \___________________________\");
+            Console.WriteLine(@"");
+            Console.ResetColor();
         }
 
         private static void Countdown(int timeInSeconds)
@@ -118,14 +146,6 @@ namespace AutoSearch
             mouse_event(MOUSEEVENTF_LEFTUP, positionX, positionY, 0, UIntPtr.Zero); 
         }
 
-        private static void SetClipboard(string text)
-        {
-            var clipboardThread = new Thread(() => Clipboard.SetText(text));
-            clipboardThread.SetApartmentState(ApartmentState.STA); 
-            clipboardThread.Start();
-            clipboardThread.Join();
-        }
-        
     }
 }
 

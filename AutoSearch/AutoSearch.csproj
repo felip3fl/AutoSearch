@@ -19,7 +19,7 @@
       <None Update="Lists\v1\Pokemon.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="Lists\v1\Cities.json">
+      <None Update="Lists\v1\City.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>
