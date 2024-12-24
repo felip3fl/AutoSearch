@@ -27,15 +27,13 @@ namespace AutoSearch
 
             clipboard.SetTextClipboard("testClipboard");
 
-  
-
             Console.WriteLine("Choose a list:");
-            Console.WriteLine("1 Music");
+            Console.WriteLine("1 Music (default)");
             Console.WriteLine("2 Pokemon");
             Console.WriteLine("3 City");
             
             var listNumber = Console.ReadLine();
-            var listName = "";
+            var listName = "Music";
                 
             switch (listNumber)
             {
@@ -48,20 +46,19 @@ namespace AutoSearch
                 case "3":
                     listName = "City";
                     break;
-                default:
-                    listName = "Music";
-                    break;
             }
+
+            Console.WriteLine("How many searches do you want to do?");
+            var numbersOfSearchesString = Console.ReadLine();
+            int.TryParse(numbersOfSearchesString, out int numbersOfSearchesInt);
             
             var fileAddress = $"Lists\\v1\\{listName}.json";
             var jsonFile = File.ReadAllText(fileAddress);
             var listOfSearch = JsonConvert.DeserializeObject<ListOfSearch>(jsonFile);
-            
-            var numbersOfSearches = 35;
 
             // Countdown(3);
 
-            for (int i = 0; i < numbersOfSearches; i++)
+            for (int i = 0; i < numbersOfSearchesInt; i++)
             {
                 var mousePositionX = 225;
                 var mousePositiony = 130;
@@ -72,7 +69,7 @@ namespace AutoSearch
                 var selectedValue = listOfSearch.Name[musicIndex];
 
                 Console.WriteLine($"[{DateTime.Now.ToLongTimeString()}] " +
-                                  $"Search {i+1} of {numbersOfSearches} " +
+                                  $"Search {i+1} of {numbersOfSearchesString} " +
                                   $"- {listName} {musicIndex}: {selectedValue}");
                 
                 clipboard.SetTextClipboard(selectedValue);
