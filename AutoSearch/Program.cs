@@ -1,11 +1,13 @@
 ﻿using System.Runtime.InteropServices;
 using AutoSearch.Models;
+using AutoSearch.Tools;
 using Newtonsoft.Json;
 
 namespace AutoSearch
 {
     public class AutoSearch
     {
+        
         [DllImport("user32.dll", SetLastError = true)]
         private static extern void mouse_event(uint dwFlags, int dx, int dy, uint dwData, UIntPtr dwExtraInfo);
         
@@ -17,6 +19,8 @@ namespace AutoSearch
 
         static void Main(string[] args)
         {
+            var keyTools = new KeyTools();
+        
             Console.WriteLine("Enter the name of the list: ");
             Console.WriteLine("1 - Music");
             Console.WriteLine("2 - Pokemon");
@@ -62,7 +66,6 @@ namespace AutoSearch
                 Console.WriteLine($"[{DateTime.Now.ToLongTimeString()}] Search {i+1} of {numbersOfSearches}" +
                                   $" - Text: {selectedValue}");
                 
-                // Clipboard.SetText(selectedValue);
                 SetClipboard(selectedValue);
                 
                 int sleepInSeconds  = rnd.Next(1, 3);
@@ -74,10 +77,10 @@ namespace AutoSearch
                 MouseClick(mousePositionX, mousePositiony);
 
                 System.Threading.Thread.Sleep(1030*sleepInSeconds);
-                SendKeys.SendWait("^a");
+                keyTools.SendCtrlA();
             
                 System.Threading.Thread.Sleep(1040*sleepInSeconds);
-                SendKeys.SendWait("^v");
+                keyTools.SendCtrlV();
 
                 mousePositionX = 225;
                 mousePositiony = 180;
@@ -87,16 +90,10 @@ namespace AutoSearch
                 
                 System.Threading.Thread.Sleep(1060*sleepInSeconds);
                 MouseClick(mousePositionX, mousePositiony);
-            
-                // System.Threading.Thread.Sleep(1000);
-                // SendKeys.SendWait("{ENTER}");
+                
             }
             
             System.Threading.Thread.Sleep(2500);
-            
-            // SendKeys.SendWait("{DELETE}");
-            // System.Threading.Thread.Sleep(1000);
-            
         }
 
         private static void Countdown(int timeInSeconds)
@@ -123,20 +120,10 @@ namespace AutoSearch
 
         private static void SetClipboard(string text)
         {
-            try
-            {
-                var thread = new Thread(() => Clipboard.SetText(text));
-                thread.SetApartmentState(ApartmentState.STA); 
-                thread.Start();
-                thread.Join();              
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("ERROR: SetClipboard");
-                System.Threading.Thread.Sleep(1000);
-                SetClipboard(text);
-            }
-
+            var clipboardThread = new Thread(() => Clipboard.SetText(text));
+            clipboardThread.SetApartmentState(ApartmentState.STA); 
+            clipboardThread.Start();
+            clipboardThread.Join();
         }
         
     }
