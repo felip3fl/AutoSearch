@@ -7,8 +7,8 @@
         <UseWindowsForms>true</UseWindowsForms>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <AssemblyName>FL AutoSearch</AssemblyName>
-        <RootNamespace>FL AutoSearch</RootNamespace>
+        <AssemblyName>AutoSearch</AssemblyName>
+        <RootNamespace>AutoSearch</RootNamespace>
         <ApplicationIcon>Material\Icon\android-chrome-256x256.ico</ApplicationIcon>
         <PackageId>FL AutoSearch</PackageId>
         <Authors>FLex</Authors>

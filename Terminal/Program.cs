@@ -105,18 +105,18 @@ namespace AutoSearch
         private static void printFL()
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(@"____________________________           ");
-            Console.WriteLine(@"\  ________________________ \          ");
-            Console.WriteLine(@" \ \        ____   __      \ \         ");
-            Console.WriteLine(@"  \ \      / ___\ /\ \      \ \        ");
-            Console.WriteLine(@"   \ \    /\ \__/ \ \ \      \ \       ");
-            Console.WriteLine(@"    \ \   \ \  __\ \ \ \      \ \      ");
-            Console.WriteLine(@"     \ \   \ \ \_/  \ \ \      \ \     ");
-            Console.WriteLine(@"      \ \   \ \ \    \ \ \___   \ \    ");
-            Console.WriteLine(@"       \ \   \ \_\    \ \____\   \ \   ");
-            Console.WriteLine(@"        \ \   \/_/     \/____/    \ \  ");
-            Console.WriteLine(@"         \ \_______________________\ \ ");
-            Console.WriteLine(@"          \___________________________\");
+            Console.WriteLine("____________________________");
+            Console.WriteLine("\\  ________________________ \\");
+            Console.WriteLine(" \\ \\        ____   __      \\ \\");
+            Console.WriteLine("  \\ \\      / ___\\ /\\ \\      \\ \\");
+            Console.WriteLine("   \\ \\    /\\ \\__/ \\ \\ \\      \\ \\");
+            Console.WriteLine("    \\ \\   \\ \\  __\\ \\ \\ \\      \\ \\");
+            Console.WriteLine("     \\ \\   \\ \\ \\_/  \\ \\ \\      \\ \\");
+            Console.WriteLine("      \\ \\   \\ \\ \\    \\ \\ \\___   \\ \\");
+            Console.WriteLine("       \\ \\   \\ \\_\\    \\ \\____\\   \\ \\");
+            Console.WriteLine("        \\ \\   \\/_/     \\/____/    \\ \\");
+            Console.WriteLine("         \\ \\_______________________\\ \\");
+            Console.WriteLine("          \\___________________________\\");
             Console.WriteLine(@"");
             Console.ResetColor();
         }
