@@ -77,24 +77,22 @@ namespace AutoSearch
                 int sleepInSeconds  = rnd.Next(1, 4);
                 
                 MoveMouse(mousePositionX, mousePositiony);
+                System.Threading.Thread.Sleep(500*sleepInSeconds);
                 
-                System.Threading.Thread.Sleep(1000*sleepInSeconds);
                 MouseClick(mousePositionX, mousePositiony);
-
                 System.Threading.Thread.Sleep(1000*sleepInSeconds);
+
                 keyTools.SendCtrlA();
-            
-                System.Threading.Thread.Sleep(1000*sleepInSeconds);
                 keyTools.SendCtrlV();
+                keyTools.SendEnter();
 
-                mousePositionX = 225;
-                mousePositiony = 180;
-                
-                System.Threading.Thread.Sleep(1000*sleepInSeconds);
-                MoveMouse(mousePositionX, mousePositiony);
-                
-                System.Threading.Thread.Sleep(1000);
-                MouseClick(mousePositionX, mousePositiony);
+                //mousePositionX = 225;
+                //mousePositiony = 180;
+                //System.Threading.Thread.Sleep(1000*sleepInSeconds);
+                //MoveMouse(mousePositionX, mousePositiony);
+
+                //System.Threading.Thread.Sleep(1000);
+                //MouseClick(mousePositionX, mousePositiony);
 
                 System.Threading.Thread.Sleep(3000);
             }
