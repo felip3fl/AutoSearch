@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using AutoSearch.Models;
 using AutoSearch.Tools;
 using Newtonsoft.Json;
@@ -24,6 +25,7 @@ namespace AutoSearch
 
             var keyTools = new KeyTools();
             var clipboard = new ClipboardHelper();
+            Random rnd = new Random();
 
             clipboard.SetTextClipboard("testClipboard");
 
@@ -56,21 +58,16 @@ namespace AutoSearch
             var jsonFile = File.ReadAllText(fileAddress);
             var listOfSearch = JsonConvert.DeserializeObject<ListOfSearch>(jsonFile);
 
-            // Countdown(3);
-
             for (int i = 0; i < numbersOfSearchesInt; i++)
             {
                 var mousePositionX = 225;
                 var mousePositiony = 130;
-                
-                Random rnd = new Random();
-                int musicIndex  = rnd.Next(1, listOfSearch.Name.Count());
 
-                var selectedValue = listOfSearch.Name[musicIndex];
+                var selectedValue = DrawName(listOfSearch);
 
                 Console.WriteLine($"[{DateTime.Now.ToLongTimeString()}] " +
                                   $"Search {i+1} of {numbersOfSearchesString} " +
-                                  $"- {listName} {musicIndex}: {selectedValue}");
+                                  $"- {listName}: {selectedValue}");
                 
                 clipboard.SetTextClipboard(selectedValue);
                 
@@ -98,6 +95,28 @@ namespace AutoSearch
             }
             
             
+        }
+
+
+        public static bool ContainsNonAlphabeticalCharacters(string input)
+        {
+            var isMatch = !Regex.IsMatch(input, @"^[a-zA-Z\s]+$");
+            return isMatch;
+        }
+
+        private static string DrawName(ListOfSearch listOfSearch)
+        {
+            Random rnd = new Random();
+
+            int musicIndex = rnd.Next(1, listOfSearch.Name.Count());
+            var selectedValue = listOfSearch.Name[musicIndex];
+
+            if (ContainsNonAlphabeticalCharacters(selectedValue))
+            {
+                return DrawName(listOfSearch);
+            }
+
+            return selectedValue;
         }
 
         private static void printFL()
