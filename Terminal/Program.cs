@@ -63,6 +63,12 @@ namespace AutoSearch
                 var mousePositionX = 225;
                 var mousePositiony = 130;
 
+                for (int j = 0; j < 30; j++)
+                {
+                    //for tests
+                    var selectedValue2 = DrawName(listOfSearch);
+                }
+
                 var selectedValue = DrawName(listOfSearch);
 
                 Console.WriteLine($"[{DateTime.Now.ToLongTimeString()}] " +
@@ -100,7 +106,7 @@ namespace AutoSearch
 
         public static bool ContainsNonAlphabeticalCharacters(string input)
         {
-            var isMatch = !Regex.IsMatch(input, @"^[a-zA-Z\s]+$");
+            var isMatch = !Regex.IsMatch(input, @"^[a-zA-Z"",.()!?'\-\s]*$");
             return isMatch;
         }
 
