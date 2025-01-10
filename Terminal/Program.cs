@@ -63,11 +63,11 @@ namespace AutoSearch
                 var mousePositionX = 225;
                 var mousePositiony = 130;
 
-                for (int j = 0; j < 30; j++)
-                {
-                    //for tests
-                    var selectedValue2 = DrawName(listOfSearch);
-                }
+                //for (int j = 0; j < 30; j++)
+                //{
+                //    //for tests
+                //    var selectedValue2 = DrawName(listOfSearch);
+                //}
 
                 var selectedValue = DrawName(listOfSearch);
 
@@ -77,13 +77,11 @@ namespace AutoSearch
                 
                 clipboard.SetTextClipboard(selectedValue);
                 
-                int sleepInSeconds  = rnd.Next(1, 4);
-                
                 MoveMouse(mousePositionX, mousePositiony);
-                System.Threading.Thread.Sleep(500*sleepInSeconds);
+                System.Threading.Thread.Sleep(500);
                 
                 MouseClick(mousePositionX, mousePositiony);
-                System.Threading.Thread.Sleep(1000*sleepInSeconds);
+                System.Threading.Thread.Sleep(200);
 
                 keyTools.SendCtrlA();
                 keyTools.SendCtrlV();
@@ -97,7 +95,7 @@ namespace AutoSearch
                 //System.Threading.Thread.Sleep(1000);
                 //MouseClick(mousePositionX, mousePositiony);
 
-                System.Threading.Thread.Sleep(3000);
+                System.Threading.Thread.Sleep(4000);
             }
             
             
