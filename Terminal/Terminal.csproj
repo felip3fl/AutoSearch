@@ -7,12 +7,14 @@
         <UseWindowsForms>true</UseWindowsForms>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <AssemblyName>AutoSearch</AssemblyName>
+        <AssemblyName>FL Auto Search</AssemblyName>
         <RootNamespace>AutoSearch</RootNamespace>
         <ApplicationIcon>Material\Icon\android-chrome-256x256.ico</ApplicationIcon>
         <PackageId>FL AutoSearch</PackageId>
         <Authors>FLex</Authors>
         <PackageIcon>android-chrome-512x512.png</PackageIcon>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<Version>1.2.50110</Version>
     </PropertyGroup>
 
     <ItemGroup>
@@ -28,10 +30,22 @@
       <None Update="Lists\v1\City.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="Properties\Settings.settings">
+        <Generator>SettingsSingleFileGenerator</Generator>
+        <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Properties\Settings.Designer.cs">
+        <DesignTimeSharedInput>True</DesignTimeSharedInput>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Settings.settings</DependentUpon>
+      </Compile>
     </ItemGroup>
 
 </Project>

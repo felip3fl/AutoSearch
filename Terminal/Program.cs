@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using AutoSearch.Models;
@@ -21,6 +22,7 @@ namespace AutoSearch
 
         static void Main(string[] args)
         {
+            defineConsoletitle();
             printFL();
 
             var keyTools = new KeyTools();
@@ -140,6 +142,12 @@ namespace AutoSearch
             Console.WriteLine("          \\___________________________\\");
             Console.WriteLine(@"");
             Console.ResetColor();
+        }
+
+        private static void defineConsoletitle()
+        {
+            var title = Assembly.GetExecutingAssembly().GetName().Name;
+            Console.Title = title;
         }
 
         private static void Countdown(int timeInSeconds)
