@@ -8,7 +8,6 @@ public class ClipboardHelper
         clipboardThread.SetApartmentState(ApartmentState.STA); 
         clipboardThread.Start();
         clipboardThread.Join();
-        clipboardThread.Abort();
     }
 
     private void ClipboardSetText(object text)
