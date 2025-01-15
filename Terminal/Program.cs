@@ -24,6 +24,7 @@ namespace AutoSearch
         {
             defineConsoletitle();
             printFL();
+            
 
             var keyTools = new KeyTools();
             var clipboard = new ClipboardHelper();
@@ -125,10 +126,19 @@ namespace AutoSearch
             return selectedValue;
         }
 
+        private static string GetProjectVersion()
+        {
+            var version = Assembly.GetExecutingAssembly().GetName().Version;
+            return version.ToString();
+        }
+
         private static void printFL()
         {
+            var projectVersion = "v" + GetProjectVersion();
+            var projectVersionLength = projectVersion.Length;
+
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("____________________________");
+            Console.WriteLine("____________________________"); 
             Console.WriteLine("\\  ________________________ \\");
             Console.WriteLine(" \\ \\        ____   __      \\ \\");
             Console.WriteLine("  \\ \\      / ___\\ /\\ \\      \\ \\");
@@ -139,7 +149,10 @@ namespace AutoSearch
             Console.WriteLine("       \\ \\   \\ \\_\\    \\ \\____\\   \\ \\");
             Console.WriteLine("        \\ \\   \\/_/     \\/____/    \\ \\");
             Console.WriteLine("         \\ \\_______________________\\ \\");
-            Console.WriteLine("          \\___________________________\\");
+
+
+            Console.WriteLine($"          \\_______________{projectVersion}__\\");
+
             Console.WriteLine(@"");
             Console.ResetColor();
         }
