@@ -1,6 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Terminal", "Terminal\Terminal.csproj", "{752C7FFE-13EC-42F3-ACC8-F1274E9F50A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalFile", "LocalFile\LocalFile.csproj", "{B1F1C70C-DCCD-450D-A335-E7F300A78DBC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 Apresentation", "1 Apresentation", "{98C7BA39-2F31-4D4E-8209-3B2F80A659D3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 Core", "2 Core", "{6F0C3F52-D35E-4D16-B4FA-F525FDBA2C8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +21,16 @@ Global
 		{752C7FFE-13EC-42F3-ACC8-F1274E9F50A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{752C7FFE-13EC-42F3-ACC8-F1274E9F50A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{752C7FFE-13EC-42F3-ACC8-F1274E9F50A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1F1C70C-DCCD-450D-A335-E7F300A78DBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1F1C70C-DCCD-450D-A335-E7F300A78DBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1F1C70C-DCCD-450D-A335-E7F300A78DBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1F1C70C-DCCD-450D-A335-E7F300A78DBC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{752C7FFE-13EC-42F3-ACC8-F1274E9F50A2} = {98C7BA39-2F31-4D4E-8209-3B2F80A659D3}
+		{B1F1C70C-DCCD-450D-A335-E7F300A78DBC} = {6F0C3F52-D35E-4D16-B4FA-F525FDBA2C8D}
 	EndGlobalSection
 EndGlobal
