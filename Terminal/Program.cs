@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics;
+using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -61,6 +62,9 @@ namespace AutoSearch
             var jsonFile = File.ReadAllText(fileAddress);
             var listOfSearch = JsonConvert.DeserializeObject<ListOfSearch>(jsonFile);
 
+            Console.Clear();
+            printFL();
+
             for (int i = 0; i < numbersOfSearchesInt; i++)
             {
                 var mousePositionX = 225;
@@ -100,8 +104,10 @@ namespace AutoSearch
 
                 System.Threading.Thread.Sleep(4000);
             }
-            
-            
+
+            OpenPointPage();
+            Console.Write("\nFINISH");
+            Console.ReadLine();
         }
 
 
@@ -130,6 +136,21 @@ namespace AutoSearch
         {
             var version = Assembly.GetExecutingAssembly().GetName().Version;
             return version.ToString();
+        }
+
+        private static void OpenWebSite(string url)
+        {
+            var psi = new ProcessStartInfo
+            {
+                FileName = url,
+                UseShellExecute = true
+            };
+            Process.Start(psi);
+        }
+
+        private static void OpenPointPage()
+        {
+            OpenWebSite("https://rewards.bing.com/redeem/pointsbreakdown");
         }
 
         private static void printFL()
