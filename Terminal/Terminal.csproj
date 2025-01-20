@@ -14,10 +14,13 @@
         <Authors>FLex</Authors>
         <PackageIcon>android-chrome-512x512.png</PackageIcon>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-		<Version>1.25.1.20</Version>
+		<Version>1.25.1.21</Version>
     </PropertyGroup>
 
     <ItemGroup>
+      <None Update="Lists\v1\Country.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
       <None Update="Lists\V1\List.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
@@ -38,6 +41,10 @@
 
     <ItemGroup>
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\LocalFile\LocalFile.csproj" />
     </ItemGroup>
 
     <ItemGroup>

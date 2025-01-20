@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using AutoSearch.Models;
 using AutoSearch.Tools;
+using LocalFile;
 using Newtonsoft.Json;
 
 namespace AutoSearch
@@ -23,6 +24,9 @@ namespace AutoSearch
 
         static void Main(string[] args)
         {
+            var localFile = new LocalFile.LocalFile();
+            var files = localFile.GetListFileName("Lists\\v1");
+
             defineConsoletitle();
             printFL();
             
@@ -34,36 +38,26 @@ namespace AutoSearch
             clipboard.SetTextClipboard("testClipboard");
 
             Console.WriteLine("Choose a list:");
-            Console.WriteLine("1 Music (default)");
-            Console.WriteLine("2 Pokemon");
-            Console.WriteLine("3 City");
-            
-            var listNumber = Console.ReadLine();
-            var listName = "Music";
-                
-            switch (listNumber)
+            foreach (var item in files)
             {
-                case "1":
-                    listName = "Music";
-                    break;
-                case "2":
-                    listName = "Pokemon";
-                    break;
-                case "3":
-                    listName = "City";
-                    break;
+                Console.WriteLine($"{item.Id} {item.Name}");
             }
+
+            var listNumber = Int32.Parse(Console.ReadLine());
+            
+            var listName = files.Where(x => x.Id == listNumber).FirstOrDefault();
+            
 
             Console.WriteLine("How many searches do you want to do?");
             var numbersOfSearchesString = Console.ReadLine();
             int.TryParse(numbersOfSearchesString, out int numbersOfSearchesInt);
             
-            var fileAddress = $"Lists\\v1\\{listName}.json";
-            var jsonFile = File.ReadAllText(fileAddress);
+            var jsonFile = File.ReadAllText(listName.Path);
             var listOfSearch = JsonConvert.DeserializeObject<ListOfSearch>(jsonFile);
 
             Console.Clear();
             printFL();
+
             var watch = System.Diagnostics.Stopwatch.StartNew();
 
             for (int i = 0; i < numbersOfSearchesInt; i++)
@@ -71,16 +65,10 @@ namespace AutoSearch
                 var mousePositionX = 225;
                 var mousePositiony = 130;
 
-                //for (int j = 0; j < 30; j++)
-                //{
-                //    //for tests
-                //    var selectedValue2 = DrawName(listOfSearch);
-                //}
-
                 var selectedValue = DrawName(listOfSearch);
 
                 PrintDateTime();
-                Console.WriteLine($"{listName} {i+1} of {numbersOfSearchesString}: " +
+                Console.WriteLine($"{listName.Name} {i+1}/{numbersOfSearchesString}: " +
                                         $"{selectedValue}");
                 
                 clipboard.SetTextClipboard(selectedValue);
@@ -94,14 +82,6 @@ namespace AutoSearch
                 keyTools.SendCtrlA();
                 keyTools.SendCtrlV();
                 keyTools.SendEnter();
-
-                //mousePositionX = 225;
-                //mousePositiony = 180;
-                //System.Threading.Thread.Sleep(1000*sleepInSeconds);
-                //MoveMouse(mousePositionX, mousePositiony);
-
-                //System.Threading.Thread.Sleep(1000);
-                //MouseClick(mousePositionX, mousePositiony);
 
                 System.Threading.Thread.Sleep(4000);
             }
