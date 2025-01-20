@@ -64,6 +64,7 @@ namespace AutoSearch
 
             Console.Clear();
             printFL();
+            var watch = System.Diagnostics.Stopwatch.StartNew();
 
             for (int i = 0; i < numbersOfSearchesInt; i++)
             {
@@ -78,9 +79,9 @@ namespace AutoSearch
 
                 var selectedValue = DrawName(listOfSearch);
 
-                Console.WriteLine($"[{DateTime.Now.ToLongTimeString()}] " +
-                                  $"Search {i+1} of {numbersOfSearchesString} " +
-                                  $"- {listName}: {selectedValue}");
+                PrintDateTime();
+                Console.WriteLine($"{listName} {i+1} of {numbersOfSearchesString}: " +
+                                        $"{selectedValue}");
                 
                 clipboard.SetTextClipboard(selectedValue);
                 
@@ -105,11 +106,25 @@ namespace AutoSearch
                 System.Threading.Thread.Sleep(4000);
             }
 
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            TimeSpan t = TimeSpan.FromMilliseconds(elapsedMs);
+            string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s",
+                                    t.Hours,
+                                    t.Minutes,
+                                    t.Seconds);
+
             OpenPointPage();
-            Console.Write("\nFINISH");
+            Console.Write($"\nFINISH - Total time: {answer}");
             Console.ReadLine();
         }
 
+        private static void PrintDateTime()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write($"[{DateTime.Now.ToLongTimeString()}] ");
+            Console.ResetColor();
+        }
 
         public static bool ContainsNonAlphabeticalCharacters(string input)
         {
