@@ -7,5 +7,6 @@
         public string NameWithExtension { get; set; }
         public string Path { get; set; }
         public string Extension { get; set; }
+        public int Size { get; set; }
     }
 }

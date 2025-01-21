@@ -9,15 +9,17 @@ namespace LocalFile
             var filesWithAddress = Directory.GetFiles(folderAddress);
             var filesName = new List<Record>();
 
-            foreach (var item in filesWithAddress)
+            foreach (var fileAddress in filesWithAddress)
             {
                 var localFile = new Record();
+                var fileContent = File.ReadLines(fileAddress);
 
                 localFile.Id                = filesName.Count + 1;
-                localFile.Name              = Path.GetFileNameWithoutExtension(item);
-                localFile.NameWithExtension = Path.GetFileName(item);
-                localFile.Path              = item;
-                localFile.Extension         = Path.GetExtension(item);
+                localFile.Name              = Path.GetFileNameWithoutExtension(fileAddress);
+                localFile.NameWithExtension = Path.GetFileName(fileAddress);
+                localFile.Path              = fileAddress;
+                localFile.Extension         = Path.GetExtension(fileAddress);
+                localFile.Size              = fileContent.Count();
 
                 filesName.Add(localFile);
             }

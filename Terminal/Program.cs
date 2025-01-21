@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using AutoSearch.Models;
 using AutoSearch.Tools;
 using LocalFile;
+using LocalFile.Models;
 using Newtonsoft.Json;
 
 namespace AutoSearch
@@ -40,7 +41,9 @@ namespace AutoSearch
             Console.WriteLine("Choose a list:");
             foreach (var item in files)
             {
-                Console.WriteLine($"{item.Id} {item.Name}");
+                Console.Write($"{item.Id} {item.Name}");
+                PrintFileTotalSize(item);
+                Console.Write(Environment.NewLine);
             }
 
             var listNumber = Int32.Parse(Console.ReadLine());
@@ -53,7 +56,7 @@ namespace AutoSearch
             int.TryParse(numbersOfSearchesString, out int numbersOfSearchesInt);
             
             var jsonFile = File.ReadAllText(listName.Path);
-            var listOfSearch = JsonConvert.DeserializeObject<ListOfSearch>(jsonFile);
+            var listOfSearch = JsonConvert.DeserializeObject<ListOfSearch>(value: jsonFile);
 
             Console.Clear();
             printFL();
@@ -97,6 +100,13 @@ namespace AutoSearch
             OpenPointPage();
             Console.Write($"\nFINISH - Total time: {answer}");
             Console.ReadLine();
+        }
+
+        private static void PrintFileTotalSize(Record fileId)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write($" {fileId.Size}");
+            Console.ResetColor();
         }
 
         private static void PrintDateTime()
