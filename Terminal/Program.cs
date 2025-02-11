@@ -26,6 +26,7 @@ namespace AutoSearch
         static void Main(string[] args)
         {
             var localFile = new LocalFile.LocalFile();
+            var terminal = new Terminal();
             var files = localFile.GetListFileName("Lists\\v1");
 
             defineConsoletitle();
@@ -74,6 +75,7 @@ namespace AutoSearch
                 Console.WriteLine($"{listName.Name} {i+1}/{numbersOfSearchesString}: " +
                                         $"{selectedValue}");
                 
+                terminal.SetFocus();
                 clipboard.SetTextClipboard(selectedValue);
                 
                 MoveMouse(mousePositionX, mousePositiony);
