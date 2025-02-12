@@ -13,6 +13,7 @@ namespace AutoSearch
 {
     public class AutoSearch
     {
+        static List<int> excludedNumbers = new();
         
         [DllImport("user32.dll", SetLastError = true)]
         private static extern void mouse_event(uint dwFlags, int dx, int dy, uint dwData, UIntPtr dwExtraInfo);
@@ -129,14 +130,31 @@ namespace AutoSearch
             Random rnd = new Random();
 
             int musicIndex = rnd.Next(1, listOfSearch.Name.Count());
+
             var selectedValue = listOfSearch.Name[musicIndex];
 
             if (ContainsNonAlphabeticalCharacters(selectedValue))
-            {
                 return DrawName(listOfSearch);
+
+            if (CheckExcludedNumbers(musicIndex))
+                return DrawName(listOfSearch);
+
+            AddExcludedNumbers(musicIndex);
+            return selectedValue;
+        }
+
+        private static bool CheckExcludedNumbers(int number)
+        {
+            if (excludedNumbers.Contains(number))
+            {
+                return true;
+            }
+            return false;
             }
 
-            return selectedValue;
+        private static void AddExcludedNumbers(int numberToExclude)
+        {
+            excludedNumbers.Add(numberToExclude);
         }
 
         private static string GetProjectVersion()
