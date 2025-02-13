@@ -7,6 +7,7 @@ using AutoSearch.Models;
 using AutoSearch.Tools;
 using LocalFile;
 using LocalFile.Models;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace AutoSearch
@@ -26,8 +27,12 @@ namespace AutoSearch
 
         static void Main(string[] args)
         {
-            var localFile = new LocalFile.LocalFile();
-            var terminal = new Terminal();
+            var localFile = new JsonLocalFile();
+            var terminal  = new Terminal();
+            var keyTools  = new KeyTools();
+            var clipboard = new ClipboardHelper();
+            var mouseTools = new MouseTools();
+
             var files = localFile.GetListFileName("Lists\\v1");
 
             defineConsoletitle();
@@ -38,6 +43,8 @@ namespace AutoSearch
             var clipboard = new ClipboardHelper();
             Random rnd = new Random();
 
+            Console.SetWindowSize(600,600);
+
             clipboard.SetTextClipboard("testClipboard");
 
             Console.WriteLine("Choose a list:");
@@ -47,6 +54,9 @@ namespace AutoSearch
                 PrintFileTotalSize(item);
                 Console.Write(Environment.NewLine);
             }
+
+            
+
 
             var listNumber = Int32.Parse(Console.ReadLine());
             
@@ -79,11 +89,8 @@ namespace AutoSearch
                 terminal.SetFocus();
                 clipboard.SetTextClipboard(selectedValue);
                 
-                MoveMouse(mousePositionX, mousePositiony);
-                System.Threading.Thread.Sleep(500);
-                
-                MouseClick(mousePositionX, mousePositiony);
-                System.Threading.Thread.Sleep(200);
+                mouseTools.MoveMouse(mousePositionX, mousePositiony, 500);
+                mouseTools.MouseClick(mousePositionX, mousePositiony, 200);
 
                 keyTools.SendCtrlA();
                 keyTools.SendCtrlV();
@@ -111,6 +118,7 @@ namespace AutoSearch
             Console.Write($" {fileId.Size}");
             Console.ResetColor();
         }
+
 
         private static void PrintDateTime()
         {

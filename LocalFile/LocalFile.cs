@@ -2,7 +2,7 @@
 
 namespace LocalFile
 {
-    public class LocalFile
+    public class JsonLocalFile
     {
         public List<Record> GetListFileName(string folderAddress)
         {
@@ -26,6 +26,9 @@ namespace LocalFile
 
             return filesName;
         }
+
+
+       
 
 
     }
