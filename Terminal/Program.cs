@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -15,15 +14,6 @@ namespace AutoSearch
     public class AutoSearch
     {
         static List<int> excludedNumbers = new();
-        
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern void mouse_event(uint dwFlags, int dx, int dy, uint dwData, UIntPtr dwExtraInfo);
-        
-        private const uint MOUSEEVENTF_LEFTDOWN = 0x02; // Clique esquerdo pressionado
-        private const uint MOUSEEVENTF_LEFTUP = 0x04;   // Clique esquerdo liberado
-        
-        [DllImport("user32.dll")]
-        static extern bool SetCursorPos(int X, int Y);
 
         static void Main(string[] args)
         {
@@ -37,10 +27,9 @@ namespace AutoSearch
 
             defineConsoletitle();
             printFL();
-            
+            loadConfig();
 
-            var keyTools = new KeyTools();
-            var clipboard = new ClipboardHelper();
+            
             Random rnd = new Random();
 
             Console.SetWindowSize(600,600);
@@ -85,10 +74,10 @@ namespace AutoSearch
                 PrintDateTime();
                 Console.WriteLine($"{listName.Name} {i+1}/{numbersOfSearchesString}: " +
                                         $"{selectedValue}");
-                
+
                 terminal.SetFocus();
                 clipboard.SetTextClipboard(selectedValue);
-                
+
                 mouseTools.MoveMouse(mousePositionX, mousePositiony, 500);
                 mouseTools.MouseClick(mousePositionX, mousePositiony, 200);
 
@@ -127,6 +116,15 @@ namespace AutoSearch
             Console.ResetColor();
         }
 
+        public static void loadConfig()
+        {
+            var configuration = new ConfigurationBuilder()
+            .AddJsonFile($"appsettings.json");
+
+            var config = configuration.Build();
+            var connectionString = config.GetConnectionString("ConnectionString");
+        }
+
         public static bool ContainsNonAlphabeticalCharacters(string input)
         {
             var isMatch = !Regex.IsMatch(input, @"^[a-zA-Z"",.()!?'\-\s]*$");
@@ -158,7 +156,7 @@ namespace AutoSearch
                 return true;
             }
             return false;
-            }
+        }
 
         private static void AddExcludedNumbers(int numberToExclude)
         {
@@ -216,29 +214,6 @@ namespace AutoSearch
             var title = Assembly.GetExecutingAssembly().GetName().Name;
             Console.Title = title;
         }
-
-        private static void Countdown(int timeInSeconds)
-        {
-            Console.Write("Starting in ");
-            for (int i = 0; i < timeInSeconds; i++)
-            {
-                Console.Write((timeInSeconds- i) + " ");
-                System.Threading.Thread.Sleep(1000);
-            }
-            Console.WriteLine(" ");
-        }
-
-        private static void MoveMouse(int positionX, int positionY)
-        {
-            SetCursorPos(positionX, positionY);
-        }
-        
-        private static void MouseClick(int positionX, int positionY)
-        {
-            mouse_event(MOUSEEVENTF_LEFTDOWN, positionX, positionY, 0, UIntPtr.Zero);
-            mouse_event(MOUSEEVENTF_LEFTUP, positionX, positionY, 0, UIntPtr.Zero); 
-        }
-
     }
 }
 
