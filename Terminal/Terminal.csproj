@@ -21,7 +21,7 @@
       <None Update="appsettings.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="Lists\v1\Car.json">
+      <None Update="Lists\v1\Word.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="Lists\v1\Company.json">
