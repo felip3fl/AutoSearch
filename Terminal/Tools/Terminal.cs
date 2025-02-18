@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace AutoSearch.Tools
 {
@@ -24,6 +25,42 @@ namespace AutoSearch.Tools
 
             ShowWindowAsync(new HandleRef(null, handle), SW_RESTORE);
             SetForegroundWindow(handle);
+        }
+
+        public void PrintFL()
+        {
+            var projectVersion = "v" + GetProjectVersion();
+            var projectVersionLength = projectVersion.Length;
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("____________________________");
+            Console.WriteLine("\\  ________________________ \\");
+            Console.WriteLine(" \\ \\        ____   __      \\ \\");
+            Console.WriteLine("  \\ \\      / ___\\ /\\ \\      \\ \\");
+            Console.WriteLine("   \\ \\    /\\ \\__/ \\ \\ \\      \\ \\");
+            Console.WriteLine("    \\ \\   \\ \\  __\\ \\ \\ \\      \\ \\");
+            Console.WriteLine("     \\ \\   \\ \\ \\_/  \\ \\ \\      \\ \\");
+            Console.WriteLine("      \\ \\   \\ \\ \\    \\ \\ \\___   \\ \\");
+            Console.WriteLine("       \\ \\   \\ \\_\\    \\ \\____\\   \\ \\");
+            Console.WriteLine("        \\ \\   \\/_/     \\/____/    \\ \\");
+            Console.WriteLine("         \\ \\_______________________\\ \\");
+
+
+            Console.WriteLine($"          \\_______________{projectVersion}__\\");
+
+            Console.WriteLine(@"");
+            Console.ResetColor();
+        }
+
+        public string GetProjectVersion()
+        {
+            var version = Assembly.GetExecutingAssembly().GetName().Version;
+            return version.ToString();
+        }
+
+        public void DefineConsoletitle(string title)
+        {
+            Console.Title = title;
         }
     }
 }

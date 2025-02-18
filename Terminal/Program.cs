@@ -17,16 +17,16 @@ namespace AutoSearch
 
         static void Main(string[] args)
         {
-            var localFile = new JsonLocalFile();
-            var terminal  = new Terminal();
-            var keyTools  = new KeyTools();
-            var clipboard = new ClipboardHelper();
+            var localFile  = new JsonLocalFile();
+            var terminal   = new Terminal();
+            var keyTools   = new KeyTools();
+            var clipboard  = new ClipboardHelper();
             var mouseTools = new MouseTools();
 
             var files = localFile.GetListFileName("Lists\\v1");
 
-            defineConsoletitle();
-            printFL();
+            terminal.DefineConsoletitle(Assembly.GetExecutingAssembly().GetName().Name);
+            terminal.PrintFL();
             loadConfig();
 
             
@@ -45,8 +45,6 @@ namespace AutoSearch
             }
 
             
-
-
             var listNumber = Int32.Parse(Console.ReadLine());
             
             var listName = files.Where(x => x.Id == listNumber).FirstOrDefault();
@@ -60,7 +58,7 @@ namespace AutoSearch
             var listOfSearch = JsonConvert.DeserializeObject<ListOfSearch>(value: jsonFile);
 
             Console.Clear();
-            printFL();
+            terminal.PrintFL();
 
             var watch = System.Diagnostics.Stopwatch.StartNew();
 
@@ -163,11 +161,7 @@ namespace AutoSearch
             excludedNumbers.Add(numberToExclude);
         }
 
-        private static string GetProjectVersion()
-        {
-            var version = Assembly.GetExecutingAssembly().GetName().Version;
-            return version.ToString();
-        }
+
 
         private static void OpenWebSite(string url)
         {
@@ -184,36 +178,8 @@ namespace AutoSearch
             OpenWebSite("https://rewards.bing.com/redeem/pointsbreakdown");
         }
 
-        private static void printFL()
-        {
-            var projectVersion = "v" + GetProjectVersion();
-            var projectVersionLength = projectVersion.Length;
-
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("____________________________"); 
-            Console.WriteLine("\\  ________________________ \\");
-            Console.WriteLine(" \\ \\        ____   __      \\ \\");
-            Console.WriteLine("  \\ \\      / ___\\ /\\ \\      \\ \\");
-            Console.WriteLine("   \\ \\    /\\ \\__/ \\ \\ \\      \\ \\");
-            Console.WriteLine("    \\ \\   \\ \\  __\\ \\ \\ \\      \\ \\");
-            Console.WriteLine("     \\ \\   \\ \\ \\_/  \\ \\ \\      \\ \\");
-            Console.WriteLine("      \\ \\   \\ \\ \\    \\ \\ \\___   \\ \\");
-            Console.WriteLine("       \\ \\   \\ \\_\\    \\ \\____\\   \\ \\");
-            Console.WriteLine("        \\ \\   \\/_/     \\/____/    \\ \\");
-            Console.WriteLine("         \\ \\_______________________\\ \\");
 
 
-            Console.WriteLine($"          \\_______________{projectVersion}__\\");
-
-            Console.WriteLine(@"");
-            Console.ResetColor();
-        }
-
-        private static void defineConsoletitle()
-        {
-            var title = Assembly.GetExecutingAssembly().GetName().Name;
-            Console.Title = title;
-        }
     }
 }
 
