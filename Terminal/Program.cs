@@ -135,15 +135,16 @@ namespace AutoSearch
 
             int musicIndex = rnd.Next(1, listOfSearch.Name.Count());
 
-            var selectedValue = listOfSearch.Name[musicIndex];
-
-            if (ContainsNonAlphabeticalCharacters(selectedValue))
-                return DrawName(listOfSearch);
-
             if (CheckExcludedNumbers(musicIndex))
                 return DrawName(listOfSearch);
 
             AddExcludedNumbers(musicIndex);
+
+            var selectedValue = listOfSearch.Name[musicIndex];
+
+            if (ContainsNonAlphabeticalCharacters(selectedValue))
+                return DrawName(listOfSearch);
+            
             return selectedValue;
         }
 
@@ -177,8 +178,6 @@ namespace AutoSearch
         {
             OpenWebSite("https://rewards.bing.com/redeem/pointsbreakdown");
         }
-
-
 
     }
 }
