@@ -15,43 +15,32 @@ namespace AutoSearch
     {
         static List<int> excludedNumbers = new();
 
+        static JsonLocalFile localFile   = new();
+        static Terminal terminal         = new();
+        static KeyTools keyTools         = new();
+        static ClipboardHelper clipboard = new();
+        static MouseTools mouseTools     = new();
+        static Watch watch = new();
+
         static void Main(string[] args)
         {
-            var localFile  = new JsonLocalFile();
-            var terminal   = new Terminal();
-            var keyTools   = new KeyTools();
-            var clipboard  = new ClipboardHelper();
-            var mouseTools = new MouseTools();
-
-            var files = localFile.GetListFileName("Lists\\v1");
-
             terminal.DefineConsoletitle(Assembly.GetExecutingAssembly().GetName().Name);
             terminal.PrintFL();
-            loadConfig();
-
-            
-            Random rnd = new Random();
-
-            Console.SetWindowSize(600,600);
+            LoadConfig();
 
             clipboard.SetTextClipboard("testClipboard");
 
-            Console.WriteLine("Choose a list:");
-            foreach (var item in files)
-            {
-                Console.Write($"{item.Id} {item.Name}");
-                PrintFileTotalSize(item);
-                Console.Write(Environment.NewLine);
-            }
+            var files = localFile.GetListFileName("Lists\\v1");
 
-            
+            Console.WriteLine("Choose a list:");
+            ShowListWithDetails(files);
+
             var listNumber = Int32.Parse(Console.ReadLine());
-            
-            var listName = files.Where(x => x.Id == listNumber).FirstOrDefault();
-            
+            var listName = GetRecordById(files, listNumber);
 
             Console.WriteLine("How many searches do you want to do?");
             var numbersOfSearchesString = Console.ReadLine();
+
             int.TryParse(numbersOfSearchesString, out int numbersOfSearchesInt);
             
             var jsonFile = File.ReadAllText(listName.Path);
@@ -60,43 +49,48 @@ namespace AutoSearch
             Console.Clear();
             terminal.PrintFL();
 
-            var watch = System.Diagnostics.Stopwatch.StartNew();
+            watch.Start();
 
             for (int i = 0; i < numbersOfSearchesInt; i++)
             {
-                var mousePositionX = 225;
-                var mousePositiony = 130;
-
                 var selectedValue = DrawName(listOfSearch);
 
                 PrintDateTime();
-                Console.WriteLine($"{listName.Name} {i+1}/{numbersOfSearchesString}: " +
+                Console.WriteLine($"{listName.Name} {i + 1}/{numbersOfSearchesString}: " +
                                         $"{selectedValue}");
 
-                terminal.SetFocus();
-                clipboard.SetTextClipboard(selectedValue);
-
-                mouseTools.MoveMouse(mousePositionX, mousePositiony, 500);
-                mouseTools.MouseClick(mousePositionX, mousePositiony, 200);
-
-                keyTools.SendCtrlA();
-                keyTools.SendCtrlV();
-                keyTools.SendEnter();
-
-                System.Threading.Thread.Sleep(4000);
+                Search(selectedValue);
             }
 
             watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
-            TimeSpan t = TimeSpan.FromMilliseconds(elapsedMs);
-            string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s",
-                                    t.Hours,
-                                    t.Minutes,
-                                    t.Seconds);
+            Console.Write($"\nFINISH - Total time: {watch.getTotalTime()}");
 
             OpenPointPage();
-            Console.Write($"\nFINISH - Total time: {answer}");
             Console.ReadLine();
+        }
+
+        private static void Search(string selectedValue)
+        {
+            var mousePositionX = 225;
+            var mousePositiony = 130;
+
+            terminal.SetFocus();
+            clipboard.SetTextClipboard(selectedValue);
+
+            mouseTools.MoveMouse(mousePositionX, mousePositiony, 500);
+            mouseTools.MouseClick(mousePositionX, mousePositiony, 200);
+
+            keyTools.SendCtrlA();
+            keyTools.SendCtrlV();
+            keyTools.SendEnter();
+
+            System.Threading.Thread.Sleep(4000);
+        }
+
+        private static Record GetRecordById(List<Record> files, int Id)
+        {
+            var listName = files.Where(x => x.Id == Id).FirstOrDefault();
+            return listName;
         }
 
         private static void PrintFileTotalSize(Record fileId)
@@ -106,6 +100,15 @@ namespace AutoSearch
             Console.ResetColor();
         }
 
+        private static void ShowListWithDetails(List<Record> files)
+        {
+            foreach (var item in files)
+            {
+                Console.Write($"{item.Id} {item.Name}");
+                PrintFileTotalSize(item);
+                Console.Write(Environment.NewLine);
+            }
+        } 
 
         private static void PrintDateTime()
         {
@@ -114,7 +117,7 @@ namespace AutoSearch
             Console.ResetColor();
         }
 
-        public static void loadConfig()
+        public static void LoadConfig()
         {
             var configuration = new ConfigurationBuilder()
             .AddJsonFile($"appsettings.json");
