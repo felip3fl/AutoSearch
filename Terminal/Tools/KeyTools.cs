@@ -2,33 +2,48 @@
 {
     public class KeyTools
     {
-        public void SendCtrlV()
+        const int DefaultTimeSleepBefore = 500;
+        const int DefaulttimeSleepAfter = 0;
+        private void SendKeyCombination(string keyCombination, int timeSleepBefore, int timeSleepAfter)
         {
-            SendKeys.SendWait("^v");
-            DefaultTimeSleep();
+            TimeSleep(timeSleepBefore);
+            SendKeys.SendWait(keyCombination);
+            TimeSleep(timeSleepAfter);
         }
-        
-        public void SendCtrlA()
+
+        public void SendCtrlV(int timeSleepBefore = DefaultTimeSleepBefore, int timeSleepAfter = DefaulttimeSleepAfter)
         {
-            SendKeys.SendWait("^a");
-            DefaultTimeSleep();
+            SendKeyCombination("^v", timeSleepBefore, timeSleepAfter);
         }
-        
-        public void SendEnter()
+
+        public void SendCtrlA(int timeSleepBefore = DefaultTimeSleepBefore, int timeSleepAfter = DefaulttimeSleepAfter)
         {
-            SendKeys.SendWait("{ENTER}");
-            DefaultTimeSleep();
+            SendKeyCombination("^a", timeSleepBefore, timeSleepAfter);
         }
-        
-        public void SendDelete()
+
+        public void SendEnter(int timeSleepBefore = DefaultTimeSleepBefore, int timeSleepAfter = DefaulttimeSleepAfter)
         {
-            SendKeys.SendWait("{DELETE}");
-            DefaultTimeSleep();
+            SendKeyCombination("{ENTER}", timeSleepBefore, timeSleepAfter);
+        }
+
+        public void SendDelete(int timeSleepBefore = DefaultTimeSleepBefore, int timeSleepAfter = DefaulttimeSleepAfter)
+        {
+            SendKeyCombination("{DELETE}", timeSleepBefore, timeSleepAfter);
+        }
+
+        public void  SendHome(int timeSleepBefore = DefaultTimeSleepBefore, int timeSleepAfter = DefaulttimeSleepAfter)
+        {
+            SendKeyCombination("{HOME}", timeSleepBefore, timeSleepAfter);
+        }
+
+        private void TimeSleep(int timeInMillisecond)
+        {
+            Thread.Sleep(timeInMillisecond);
         }
 
         private void DefaultTimeSleep()
         {
-            System.Threading.Thread.Sleep(500);
+            TimeSleep(500);
         }
     }
 }
