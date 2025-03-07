@@ -36,6 +36,11 @@
             SendKeyCombination("{HOME}", timeSleepBefore, timeSleepAfter);
         }
 
+        public void SendF5(int timeSleepBefore = DefaultTimeSleepBefore, int timeSleepAfter = DefaulttimeSleepAfter)
+        {
+            SendKeyCombination("{F5}", timeSleepBefore, timeSleepAfter);
+        }
+
         private void TimeSleep(int timeInMillisecond)
         {
             Thread.Sleep(timeInMillisecond);
