@@ -84,11 +84,12 @@ namespace AutoSearch
             keyTools.SendCtrlV();
             keyTools.SendEnter();
 
-            System.Threading.Thread.Sleep(4000);
+            keyTools.SendF5(3000, 3000);
         }
 
         private static Record GetRecordById(List<Record> files, int Id)
         {
+            
             var listName = files.Where(x => x.Id == Id).FirstOrDefault();
             return listName;
         }
