@@ -38,8 +38,13 @@ namespace AutoSearch
             var listNumber = Int32.Parse(Console.ReadLine());
             var listName = GetRecordById(files, listNumber);
 
-            Console.WriteLine("How many searches do you want to do?");
+            Console.WriteLine("\nHow many searches do you want to do?");
             var numbersOfSearchesString = Console.ReadLine();
+
+            Console.WriteLine("\nWhat type of search do you want?");
+            Console.WriteLine("1 Normal (default)");
+            Console.WriteLine("2 Search and update page");
+            var typeSearch = Console.ReadLine();
 
             int.TryParse(numbersOfSearchesString, out int numbersOfSearchesInt);
             
@@ -59,7 +64,10 @@ namespace AutoSearch
                 Console.WriteLine($"{listName.Name} {i + 1}/{numbersOfSearchesString}: " +
                                         $"{selectedValue}");
 
-                Search(selectedValue);
+                if(typeSearch == "1")
+                    Search(selectedValue);
+                if (typeSearch == "2")
+                    SearchAndUpdatePage(selectedValue);
             }
 
             watch.Stop();
@@ -67,6 +75,24 @@ namespace AutoSearch
 
             OpenPointPage();
             Console.ReadLine();
+        }
+
+        private static void SearchAndUpdatePage(string selectedValue)
+        {
+            var mousePositionX = 225;
+            var mousePositiony = 130;
+
+            terminal.SetFocus();
+            clipboard.SetTextClipboard(selectedValue);
+
+            mouseTools.MoveMouse(mousePositionX, mousePositiony, 500);
+            mouseTools.MouseClick(mousePositionX, mousePositiony, 200);
+
+            keyTools.SendCtrlA();
+            keyTools.SendCtrlV();
+            keyTools.SendEnter();
+
+            keyTools.SendF5(3000, 3000);
         }
 
         private static void Search(string selectedValue)
@@ -84,7 +110,7 @@ namespace AutoSearch
             keyTools.SendCtrlV();
             keyTools.SendEnter();
 
-            keyTools.SendF5(3000, 3000);
+            Thread.Sleep(2000);
         }
 
         private static Record GetRecordById(List<Record> files, int Id)
@@ -165,8 +191,6 @@ namespace AutoSearch
         {
             excludedNumbers.Add(numberToExclude);
         }
-
-
 
         private static void OpenWebSite(string url)
         {
