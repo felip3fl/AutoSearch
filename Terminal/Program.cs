@@ -92,7 +92,7 @@ namespace AutoSearch
             keyTools.SendCtrlV();
             keyTools.SendEnter();
 
-            keyTools.SendF5(3000, 3000);
+            keyTools.SendF5(3000, 60000*4);
         }
 
         private static void Search(string selectedValue)
