@@ -26,7 +26,7 @@ namespace AutoSearch
         {
             terminal.DefineConsoletitle(Assembly.GetExecutingAssembly().GetName().Name);
             terminal.PrintFL();
-            LoadConfig();
+            //LoadConfig();
 
             clipboard.SetTextClipboard("testClipboard");
 
@@ -45,6 +45,9 @@ namespace AutoSearch
             Console.WriteLine("1 Normal (default)");
             Console.WriteLine("2 Search and update page");
             var typeSearch = Console.ReadLine();
+
+            Console.WriteLine("\nTime interval (seconds)? ");
+            var timeInterval = Int32.Parse(Console.ReadLine());
 
             int.TryParse(numbersOfSearchesString, out int numbersOfSearchesInt);
             
@@ -65,9 +68,9 @@ namespace AutoSearch
                                         $"{selectedValue}");
 
                 if(typeSearch == "1")
-                    Search(selectedValue);
+                    Search(selectedValue, timeInterval);
                 if (typeSearch == "2")
-                    SearchAndUpdatePage(selectedValue);
+                    SearchAndUpdatePage(selectedValue, timeInterval);
             }
 
             watch.Stop();
@@ -77,7 +80,7 @@ namespace AutoSearch
             Console.ReadLine();
         }
 
-        private static void SearchAndUpdatePage(string selectedValue)
+        private static void SearchAndUpdatePage(string selectedValue, int inverval)
         {
             var mousePositionX = 225;
             var mousePositiony = 130;
@@ -92,10 +95,10 @@ namespace AutoSearch
             keyTools.SendCtrlV();
             keyTools.SendEnter();
 
-            keyTools.SendF5(3000, 60000*4);
+            keyTools.SendF5(3000, 1000*inverval);
         }
 
-        private static void Search(string selectedValue)
+        private static void Search(string selectedValue, int inverval)
         {
             var mousePositionX = 225;
             var mousePositiony = 130;
@@ -110,7 +113,7 @@ namespace AutoSearch
             keyTools.SendCtrlV();
             keyTools.SendEnter();
 
-            Thread.Sleep(2000);
+            Thread.Sleep(inverval * 1000);
         }
 
         private static Record GetRecordById(List<Record> files, int Id)
@@ -150,7 +153,9 @@ namespace AutoSearch
             .AddJsonFile($"appsettings.json");
 
             var config = configuration.Build();
-            var connectionString = config.GetConnectionString("ConnectionString");
+            var oi = SettingsConfig.GetSetting("MousePosition");
+
+            var connectionString = config.GetConnectionString("MousePosition");
         }
 
         public static bool ContainsNonAlphabeticalCharacters(string input)
