@@ -23,7 +23,7 @@ namespace AutoSearch.Tools
 
             Console.Title = originalTitle;
 
-            ShowWindowAsync(new HandleRef(null, handle), SW_RESTORE);
+            //ShowWindowAsync(new HandleRef(null, handle), SW_RESTORE);
             SetForegroundWindow(handle);
         }
 
