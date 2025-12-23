@@ -26,6 +26,16 @@ namespace WindowsApp
         public MainWindow()
         {
             InitializeComponent();
+            ExtendsContentIntoTitleBar = true;
+        }
+
+        private void btnAddCustomer_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void ButtonMoveNavigation_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
