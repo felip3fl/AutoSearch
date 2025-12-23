@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="WindowsApp.Controls.HeaderControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WindowsApp.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="#F05A28">
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Image Source="/Images/logo.png" Width="100"
+             Margin="5,0,0,0"/>
+            <TextBlock Text="Customers App" FontSize="30" 
+                 VerticalAlignment="Center"
+                 Foreground="White"/>
+            <TextBlock Text="Version 1.0" FontSize="16"
+                 VerticalAlignment="Bottom"
+                 Margin="10 0 0 22"
+                 Foreground="#333333"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
