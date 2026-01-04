@@ -14,76 +14,159 @@
 
     <Grid >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Header -->
-        <controls:HeaderControl Grid.ColumnSpan="3"></controls:HeaderControl>
-
-        <!-- Customer list -->
-        <Grid Grid.Row="1" x:Name="customerListGrid"
-          Background="#333333"
-              CornerRadius="0,20,0,0"
-          Width="250">
+        <Grid Background="#26000000" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal">
-                <Button Margin="10">
-                    <StackPanel Orientation="Horizontal">
-                        <SymbolIcon Symbol="AddFriend"/>
-                        <TextBlock Text="Add" Margin="5 0 0 0"/>
-                    </StackPanel>
-                </Button>
-                <Button Margin="0 10 10 10">
-                    <StackPanel Orientation="Horizontal">
-                        <SymbolIcon Symbol="Delete"/>
-                        <TextBlock Text="Delete" Margin="5 0 0 0"/>
-                    </StackPanel>
-                </Button>
-                <Button Margin="0 10 10 10" Click="ButtonMoveNavigation_Click">
-                    <SymbolIcon x:Name="symbolIconMoveNavigation" Symbol="Forward"/>
-                </Button>
-            </StackPanel>
-            <ListView Grid.Row="1" x:Name="customerListView"
-                ScrollViewer.HorizontalScrollMode="Enabled"
-                ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                <ListViewItem>Julia</ListViewItem>
-                <ListViewItem>Alex</ListViewItem>
-                <ListViewItem>Thomas</ListViewItem>
-                <ListViewItem>Thomas</ListViewItem>
-                <ListViewItem>Thomas</ListViewItem>
-                <ListViewItem>asdf</ListViewItem>
-                
+
+            <TextBlock Margin="15" Grid.Row="0" FontSize="20" FontWeight="Bold" Text="Log"/>
+
+            <ListView
+                 x:Name="BaseExample"
+                 BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                 Width="150"
+                 Grid.Row="1"
+                 HorizontalAlignment="Left">
+
+                <TextBlock Text="City"/>
+                <TextBlock Text="Company"/>
+                <TextBlock Text="Country"/>
+                <TextBlock Text="Game"/>
+                <TextBlock Text="Music"/>
+                <TextBlock Text="Pokemon"/>
+                <TextBlock Text="Word"/>
+
+
             </ListView>
         </Grid>
 
-        <!-- Customer detail -->
-        <StackPanel Grid.Row="1" Grid.Column="1" Margin="10">
-            <TextBox Header="Firstname"/>
-            <TextBox Header="Lastname" Margin="0 10 0 0"/>
-            <CheckBox Margin="0 20 0 0">
-                Is developer
-            </CheckBox>
-        </StackPanel>
+        <Grid  Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <!-- Statusbar -->
-        <Border Grid.Row="2" Grid.ColumnSpan="4" Background="#444">
-            <TextBlock Text=" (c) Wired Brain Coffee" Foreground="White" Margin="5"/>
-        </Border>
+            <Grid Padding="30,30,30,0" Grid.Column="1" Grid.Row="0">
+                <Grid.ColumnDefinitions >
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-        <Button>Felipe</Button>
-        
-        
+
+                <StackPanel Grid.Column="2" VerticalAlignment="Center" >
+                    <TextBlock x:Name="txtCaminhoArquivoas" FontSize="20" FontWeight="Bold" Text="FLex auto search"/>
+                    <TextBlock TextWrapping="Wrap" Width="380" x:Name="txtCaminhoArquivo" Text="Versão 1.26.01.04"/>
+                </StackPanel>
+                <!--<TextBox 
+                    x:Name="txtCaminhoArquivo"
+                    Grid.Column="0"
+                    PlaceholderText="Selecione um arquivo..."
+                    IsReadOnly="True"
+                    FlowDirection="RightToLeft"
+                    Margin="0,0,20,0"/>-->
+
+
+                <Image Source="/Assets/android-chrome-512x512.png" Grid.Column="0" Height="60" />
+
+            </Grid>
+
+            <Grid Padding="30,30,30,00" Grid.Column="1" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <NumberBox
+                x:Name="NumberBoxSpinButtonPlacementExample"
+                Header="Quantas pesquisas"
+                Value="30"
+                Grid.Column="0"
+                SpinButtonPlacementMode="Inline"
+                SmallChange="1"
+                LargeChange="100" />
+
+                <NumberBox
+                x:Name="NumberBoxSpinButtonPlacementExamplea"
+                Header="Tempo em segundos"
+                Value="60"
+                Grid.Column="2"
+                SpinButtonPlacementMode="Inline"
+                SmallChange="60"
+                LargeChange="100" />
+
+
+            </Grid>
+
+            <Grid Padding="30,30,30,00" Grid.Column="1" Grid.Row="2">
+
+
+                <ComboBox Header="Lista de pesquisa:" PlaceholderText="Selecione a lista" HorizontalAlignment="Stretch">
+                    <x:String>City</x:String>
+                    <x:String>Company</x:String>
+                    <x:String>Country</x:String>
+                    <x:String>Game</x:String>
+                    <x:String>Music</x:String>
+                    <x:String>Pokemon</x:String>
+                    <x:String>Word</x:String>
+                </ComboBox>
+
+            </Grid>
+
+            <Grid Padding="30,30,30,00" Grid.Column="1" Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" Grid.Column="0">
+                    <ToggleSwitch Header="Desligar pós pesquisa" OffContent="Manter ligado" OnContent="Desligar" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Column="3">
+                    <ToggleSwitch Header="Atualizar página" OffContent="Apenas pesquisar" OnContent="Atualizar" IsOn="True" />
+                </StackPanel>
+
+
+            </Grid>
+
+            <Grid Padding="30,20,30,0" Grid.Column="1" Grid.Row="4">
+                <Button 
+                x:Name="btnExecutar"
+                
+                HorizontalAlignment="Stretch"
+                Style="{StaticResource AccentButtonStyle}"
+                
+                >
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="Iniciar pesquisa" VerticalAlignment="Center"/>
+                        <SymbolIcon Symbol="Find"/>
+
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+        </Grid>
+
+
+
     </Grid>
-    
+
 </Window>
