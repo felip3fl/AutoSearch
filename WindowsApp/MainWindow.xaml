@@ -32,25 +32,30 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Margin="15" Grid.Row="0" FontSize="20" FontWeight="Bold" Text="Log"/>
+            <StackPanel Grid.Row="0" >
+                <TextBlock Margin="30,30,0,20" FontSize="20" FontWeight="Bold" Text="Log"/>
+            </StackPanel>
 
-            <ListView
-                 x:Name="BaseExample"
-                 BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
-                 Width="150"
-                 Grid.Row="1"
-                 HorizontalAlignment="Left">
+            <StackPanel Grid.Row="1" >
 
-                <TextBlock Text="City"/>
-                <TextBlock Text="Company"/>
-                <TextBlock Text="Country"/>
-                <TextBlock Text="Game"/>
-                <TextBlock Text="Music"/>
-                <TextBlock Text="Pokemon"/>
-                <TextBlock Text="Word"/>
+            <ScrollViewer Height="400" Width="270" ZoomMode="Enabled"
+            IsTabStop="True" IsVerticalScrollChainingEnabled="True"
+            HorizontalAlignment="Left" VerticalAlignment="Top"
+            
+            HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto"
+            VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto">
+                    <RichTextBlock Margin="30,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Visible"  >
+                        <Paragraph>City</Paragraph>
+                    </RichTextBlock>
+                </ScrollViewer>
 
 
-            </ListView>
+                
+            </StackPanel>
+
+
+
+
         </Grid>
 
         <Grid  Grid.Column="0">
