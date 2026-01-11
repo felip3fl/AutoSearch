@@ -59,6 +59,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\LocalFile\LocalFile.csproj" />
+	  <ProjectReference Include="..\Search\Search.csproj" />
     </ItemGroup>
 
     <ItemGroup>

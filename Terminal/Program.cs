@@ -1,32 +1,31 @@
-﻿using System.Diagnostics;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
-using AutoSearch.Models;
-using AutoSearch.Tools;
+﻿using AutoSearch.Tools;
 using LocalFile;
 using LocalFile.Models;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Search;
+using Search.Models;
+using System.Diagnostics;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace AutoSearch
 {
     public class AutoSearch
     {
-        static List<int> excludedNumbers = new();
-
         static JsonLocalFile localFile   = new();
         static Terminal terminal         = new();
         static KeyTools keyTools         = new();
         static ClipboardHelper clipboard = new();
         static MouseTools mouseTools     = new();
+        static AutomateSearch automateSearch = new();
+
         static Watch watch = new();
 
         static void Main(string[] args)
         {
             terminal.DefineConsoletitle(Assembly.GetExecutingAssembly().GetName().Name);
             terminal.PrintFL();
-            //LoadConfig();
 
             clipboard.SetTextClipboard("testClipboard");
 
@@ -61,7 +60,7 @@ namespace AutoSearch
 
             for (int i = 0; i < numbersOfSearchesInt; i++)
             {
-                var selectedValue = DrawName(listOfSearch);
+                var selectedValue = automateSearch.DrawName(listOfSearch);
 
                 PrintDateTime();
                 Console.WriteLine($"{listName.Name} {i + 1}/{numbersOfSearchesString}: " +
@@ -158,44 +157,6 @@ namespace AutoSearch
             var connectionString = config.GetConnectionString("MousePosition");
         }
 
-        public static bool ContainsNonAlphabeticalCharacters(string input)
-        {
-            var isMatch = !Regex.IsMatch(input, @"^[a-zA-Z"",.()!?'\-\s]*$");
-            return isMatch;
-        }
-
-        private static string DrawName(ListOfSearch listOfSearch)
-        {
-            Random rnd = new Random();
-
-            int musicIndex = rnd.Next(1, listOfSearch.Name.Count());
-
-            if (CheckExcludedNumbers(musicIndex))
-                return DrawName(listOfSearch);
-
-            AddExcludedNumbers(musicIndex);
-
-            var selectedValue = listOfSearch.Name[musicIndex];
-
-            if (ContainsNonAlphabeticalCharacters(selectedValue))
-                return DrawName(listOfSearch);
-            
-            return selectedValue;
-        }
-
-        private static bool CheckExcludedNumbers(int number)
-        {
-            if (excludedNumbers.Contains(number))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        private static void AddExcludedNumbers(int numberToExclude)
-        {
-            excludedNumbers.Add(numberToExclude);
-        }
 
         private static void OpenWebSite(string url)
         {
