@@ -15,6 +15,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics;
+using Windows.Networking;
 using Windows.UI.WindowManagement;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -43,10 +44,12 @@ namespace WindowsApp
 
 
 
-        private void btnAddCustomer_Click(object sender, RoutedEventArgs e)
+        private void BtnExecutar_Click(object sender, RoutedEventArgs e)
         {
 
         }
+
+
         private void ButtonMoveNavigation_Click(object sender, RoutedEventArgs e)
         {
 

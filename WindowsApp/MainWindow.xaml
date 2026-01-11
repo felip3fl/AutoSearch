@@ -101,7 +101,7 @@
                 </Grid.ColumnDefinitions>
 
                 <NumberBox
-                x:Name="NumberBoxSpinButtonPlacementExample"
+                x:Name="nbHowManySearch"
                 Header="Quantas pesquisas"
                 Value="30"
                 Grid.Column="0"
@@ -110,7 +110,7 @@
                 LargeChange="100" />
 
                 <NumberBox
-                x:Name="NumberBoxSpinButtonPlacementExamplea"
+                x:Name="nbTimeBetweenSearch"
                 Header="Tempo em segundos"
                 Value="60"
                 Grid.Column="2"
@@ -155,9 +155,9 @@
             <Grid Padding="30,20,30,0" Grid.Column="1" Grid.Row="4">
                 <Button 
                 x:Name="btnExecutar"
-                
                 HorizontalAlignment="Stretch"
                 Style="{StaticResource AccentButtonStyle}"
+                Click="BtnExecutar_Click"
                 
                 >
                     <StackPanel Orientation="Horizontal" Spacing="8">
