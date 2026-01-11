@@ -1,5 +1,5 @@
-﻿using AutoSearch.Models;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using Search.Models;
 
 namespace AutoSearch.Tools
 {
