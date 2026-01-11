@@ -1,4 +1,4 @@
-﻿namespace AutoSearch.Models
+﻿namespace Search.Models
 {
     public class ThreadSleep
     {
