@@ -7,7 +7,6 @@ using Search;
 using Search.Models;
 using System.Diagnostics;
 using System.Reflection;
-using System.Text.RegularExpressions;
 
 namespace AutoSearch
 {
