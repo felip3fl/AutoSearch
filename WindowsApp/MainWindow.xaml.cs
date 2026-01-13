@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Search;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,6 +32,7 @@ namespace WindowsApp
 
     public sealed partial class MainWindow : Window
     {
+        static AutomateSearch automateSearch = new();
 
         public MainWindow()
         {
@@ -46,7 +48,22 @@ namespace WindowsApp
 
         private void BtnExecutar_Click(object sender, RoutedEventArgs e)
         {
+            
+            
 
+            //for (int i = 0; i < numbersOfSearchesInt; i++)
+            //{
+            //    var selectedValue = automateSearch.DrawName(listOfSearch);
+
+            //    PrintDateTime();
+            //    Console.WriteLine($"{listName.Name} {i + 1}/{numbersOfSearchesString}: " +
+            //                            $"{selectedValue}");
+
+            //    if (typeSearch == "1")
+            //        Search(selectedValue, timeInterval);
+            //    if (typeSearch == "2")
+            //        SearchAndUpdatePage(selectedValue, timeInterval);
+            //}
         }
 
 
