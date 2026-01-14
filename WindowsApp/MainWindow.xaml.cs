@@ -33,6 +33,7 @@ namespace WindowsApp
     public sealed partial class MainWindow : Window
     {
         static AutomateSearch automateSearch = new();
+        public MainViewModel ViewModel { get; set; } = new MainViewModel();
 
         public MainWindow()
         {
@@ -41,7 +42,6 @@ namespace WindowsApp
 
             CenterWindow();
             FixWindowSize();
-
         }
 
 

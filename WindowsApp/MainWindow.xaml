@@ -49,8 +49,6 @@
                     </RichTextBlock>
                 </ScrollViewer>
 
-
-                
             </StackPanel>
 
 
@@ -150,18 +148,17 @@
                 </StackPanel>
 
 
-            </Grid>
+            </Grid> 
 
             <Grid Padding="30,20,30,0" Grid.Column="1" Grid.Row="4">
                 <Button 
                 x:Name="btnExecutar"
                 HorizontalAlignment="Stretch"
                 Style="{StaticResource AccentButtonStyle}"
-                Click="BtnExecutar_Click"
-                
+                Click="{x:Bind ViewModel.UpdateStatus}"
                 >
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <TextBlock Text="Iniciar pesquisa" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Bind ViewModel.Status, Mode=OneWay}" VerticalAlignment="Center"/>
                         <SymbolIcon Symbol="Find"/>
 
                     </StackPanel>
