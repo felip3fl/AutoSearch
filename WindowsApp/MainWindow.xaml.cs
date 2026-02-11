@@ -1,22 +1,10 @@
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Documents;
 using Search;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Graphics;
-using Windows.Networking;
 using Windows.UI.WindowManagement;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -94,6 +82,74 @@ namespace WindowsApp
             }
         }
 
+        private void updateRichTextBlock()
+        {
+            List<string> logItems = new List<string>
+            {
+                "Pesquisa iniciada: São Paulo",
+                "Aguardando 60 segundos...",
+                "Pesquisa iniciada: Rio de Janeiro",
+
+            };
+
+            richTextBlock.Blocks.Clear();
+
+            foreach (var item in logItems)
+            {
+                Paragraph paragraph = new Paragraph();
+                Run run = new Run { Text = item };
+                paragraph.Inlines.Add(run);
+                richTextBlock.Blocks.Add(paragraph);
+            }
+        }
+
+        private void Search()
+        {
+
+            //var listNumber = Int32.Parse(Console.ReadLine());
+            //var listName = GetRecordById(files, listNumber);
+
+            //Console.WriteLine("\nHow many searches do you want to do?");
+            //var numbersOfSearchesString = Console.ReadLine();
+
+            //Console.WriteLine("\nWhat type of search do you want?");
+            //Console.WriteLine("1 Normal (default)");
+            //Console.WriteLine("2 Search and update page");
+            //var typeSearch = Console.ReadLine();
+
+            //Console.WriteLine("\nTime interval (seconds)? ");
+            //var timeInterval = Int32.Parse(Console.ReadLine());
+
+            //int.TryParse(numbersOfSearchesString, out int numbersOfSearchesInt);
+
+            //var jsonFile = File.ReadAllText(listName.Path);
+            //var listOfSearch = JsonConvert.DeserializeObject<ListOfSearch>(value: jsonFile);
+
+            //Console.Clear();
+            //terminal.PrintFL();
+
+            //watch.Start();
+
+            //for (int i = 0; i < numbersOfSearchesInt; i++)
+            //{
+            //    var selectedValue = automateSearch.DrawName(listOfSearch);
+
+            //    PrintDateTime();
+            //    Console.WriteLine($"{listName.Name} {i + 1}/{numbersOfSearchesString}: " +
+            //                            $"{selectedValue}");
+
+            //    if(typeSearch == "1")
+            //        Search(selectedValue, timeInterval);
+            //    if (typeSearch == "2")
+            //        SearchAndUpdatePage(selectedValue, timeInterval);
+            //}
+
+            //watch.Stop();
+            //Console.Write($"\nFINISH - Total time: {watch.getTotalTime()}");
+
+            //OpenPointPage();
+            //Console.ReadLine();
+        }
     }
 
 }
