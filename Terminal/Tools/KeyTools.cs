@@ -15,6 +15,15 @@
         {
             SendKeyCombination("^v", timeSleepBefore, timeSleepAfter);
         }
+        public void SendKeyDown(int timeSleepBefore = DefaultTimeSleepBefore, int timeSleepAfter = DefaulttimeSleepAfter)
+        {
+            SendKeyCombination("{DOWN}", timeSleepBefore, timeSleepAfter);
+        }
+
+        public void SendCtrlC(int timeSleepBefore = DefaultTimeSleepBefore, int timeSleepAfter = DefaulttimeSleepAfter)
+        {
+            SendKeyCombination("^c", timeSleepBefore, timeSleepAfter);
+        }
 
         public void SendCtrlA(int timeSleepBefore = DefaultTimeSleepBefore, int timeSleepAfter = DefaulttimeSleepAfter)
         {
