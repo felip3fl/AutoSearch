@@ -1,26 +1,39 @@
+using LocalFile.Models;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
+using Newtonsoft.Json;
 using Search;
+using Search.Models;
+using Search.Tools;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Xml.Linq;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Graphics;
+using Windows.System;
+using Windows.UI.Input.Preview.Injection;
+using Windows.UI.Input.Preview.Injection;
 using Windows.UI.WindowManagement;
+using static System.Net.WebRequestMethods;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace WindowsApp
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    /// 
-
 
     public sealed partial class MainWindow : Window
     {
         static AutomateSearch automateSearch = new();
+        static ClipboardHelper clipboard = new();
+        static MouseTools mouseTools = new();
+        
+        private InputInjector _inputInjector;
+
         public MainViewModel ViewModel { get; set; } = new MainViewModel();
 
         public MainWindow()
@@ -30,34 +43,136 @@ namespace WindowsApp
 
             CenterWindow();
             FixWindowSize();
+            InitializeInputInjector();
         }
 
 
-
-        private void BtnExecutar_Click(object sender, RoutedEventArgs e)
+        private void InitializeInputInjector()
         {
-            
-            
+            try
+            {
+                
+                _inputInjector = InputInjector.TryCreate();
 
-            //for (int i = 0; i < numbersOfSearchesInt; i++)
-            //{
-            //    var selectedValue = automateSearch.DrawName(listOfSearch);
+                if (_inputInjector == null)
+                {
 
-            //    PrintDateTime();
-            //    Console.WriteLine($"{listName.Name} {i + 1}/{numbersOfSearchesString}: " +
-            //                            $"{selectedValue}");
+                }
+                else
+                {
 
-            //    if (typeSearch == "1")
-            //        Search(selectedValue, timeInterval);
-            //    if (typeSearch == "2")
-            //        SearchAndUpdatePage(selectedValue, timeInterval);
-            //}
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
-
-        private void ButtonMoveNavigation_Click(object sender, RoutedEventArgs e)
+        private VirtualKey CharToVirtualKey(char c)
         {
+            char upperChar = char.ToUpper(c);
 
+            // Letras A-Z
+            if (upperChar >= 'A' && upperChar <= 'Z')
+            {
+                return (VirtualKey)(upperChar);
+            }
+
+            // Números 0-9
+            if (c >= '0' && c <= '9')
+            {
+                return (VirtualKey)(VirtualKey.Number0 + (c - '0'));
+            }
+
+            // Espaço
+            if (c == ' ')
+            {
+                return VirtualKey.Space;
+            }
+
+            // Caracteres especiais comuns
+            return c switch
+            {
+                '!' => VirtualKey.Number1,
+                '@' => VirtualKey.Number2,
+                '#' => VirtualKey.Number3,
+                '$' => VirtualKey.Number4,
+                '%' => VirtualKey.Number5,
+                '&' => VirtualKey.Number7,
+                '*' => VirtualKey.Number8,
+                '(' => VirtualKey.Number9,
+                ')' => VirtualKey.Number0,
+                '-' => VirtualKey.Subtract,
+                '_' => VirtualKey.Subtract,
+                '=' => (VirtualKey)187, // Equal/Plus key
+                '+' => (VirtualKey)187,
+                '.' => (VirtualKey)190,
+                ',' => (VirtualKey)188,
+                ';' => (VirtualKey)186,
+                ':' => (VirtualKey)186,
+                '/' => (VirtualKey)191,
+                '?' => (VirtualKey)191,
+                _ => VirtualKey.Space // Fallback
+            };
+        }
+
+        private bool IsShiftRequired(char c)
+        {
+            return c switch
+            {
+                '!' or '@' or '#' or '$' or '%' or '&' or '*' or '(' or ')' => true,
+                '_' or '+' or ':' or '?' => true,
+                _ => false
+            };
+        }
+
+        private void InjectText(string text)
+        {
+            var keyboardInfo = new List<InjectedInputKeyboardInfo>();
+
+            foreach (char c in text)
+            {
+                // Converte o caractere para VirtualKey
+                VirtualKey virtualKey = CharToVirtualKey(c);
+                bool needsShift = char.IsUpper(c) || IsShiftRequired(c);
+
+                if (needsShift)
+                {
+                    // Pressiona Shift
+                    keyboardInfo.Add(new InjectedInputKeyboardInfo
+                    {
+                        VirtualKey = (ushort)VirtualKey.Shift,
+                        KeyOptions = InjectedInputKeyOptions.None
+                    });
+                }
+
+                // Pressiona a tecla
+                keyboardInfo.Add(new InjectedInputKeyboardInfo
+                {
+                    VirtualKey = (ushort)virtualKey,
+                    KeyOptions = InjectedInputKeyOptions.None
+                });
+
+                // Solta a tecla
+                keyboardInfo.Add(new InjectedInputKeyboardInfo
+                {
+                    VirtualKey = (ushort)virtualKey,
+                    KeyOptions = InjectedInputKeyOptions.KeyUp
+                });
+
+                if (needsShift)
+                {
+                    // Solta Shift
+                    keyboardInfo.Add(new InjectedInputKeyboardInfo
+                    {
+                        VirtualKey = (ushort)VirtualKey.Shift,
+                        KeyOptions = InjectedInputKeyOptions.KeyUp
+                    });
+                }
+            }
+
+            _inputInjector.InjectKeyboardInput(keyboardInfo);
         }
 
         private void CenterWindow()
@@ -103,52 +218,150 @@ namespace WindowsApp
             }
         }
 
+        private void InjectKeyCombo(VirtualKey modifierKey, VirtualKey key)
+        {
+            var keyboardInfo = new List<InjectedInputKeyboardInfo>
+            {
+                // Pressiona modificador (Ctrl, Alt, etc)
+                new InjectedInputKeyboardInfo
+                {
+                    VirtualKey = (ushort)modifierKey,
+                    KeyOptions = InjectedInputKeyOptions.None
+                },
+                // Pressiona a tecla principal
+                new InjectedInputKeyboardInfo
+                {
+                    VirtualKey = (ushort)key,
+                    KeyOptions = InjectedInputKeyOptions.None
+                },
+                // Solta a tecla principal
+                new InjectedInputKeyboardInfo
+                {
+                    VirtualKey = (ushort)key,
+                    KeyOptions = InjectedInputKeyOptions.KeyUp
+                },
+                // Solta o modificador
+                new InjectedInputKeyboardInfo
+                {
+                    VirtualKey = (ushort)modifierKey,
+                    KeyOptions = InjectedInputKeyOptions.KeyUp
+                }
+            };
+
+            _inputInjector.InjectKeyboardInput(keyboardInfo);
+        }
+
+        private async void InjectCtrlC_Click(object sender, RoutedEventArgs e)
+        {
+            InjectKeyCombo(VirtualKey.Control, VirtualKey.C);
+        }
+
+        private  void InjectCtrlV_Click()
+        {
+            InjectKeyCombo(VirtualKey.Control, VirtualKey.V);
+        }
+
+        private void InjectCtrlA_Click()
+        {
+            InjectKeyCombo(VirtualKey.Control, VirtualKey.A);
+        }
+
+        private void InjectEnter_Click()
+        {
+            InjectKey(VirtualKey.Enter);
+        }
+
+        private void InjectKey(VirtualKey key)
+        {
+            var keyboardInfo = new List<InjectedInputKeyboardInfo>
+            {
+                // Pressiona a tecla
+                new InjectedInputKeyboardInfo
+                {
+                    VirtualKey = (ushort)key,
+                    KeyOptions = InjectedInputKeyOptions.None
+                },
+                // Solta a tecla
+                new InjectedInputKeyboardInfo
+                {
+                    VirtualKey = (ushort)key,
+                    KeyOptions = InjectedInputKeyOptions.KeyUp
+                }
+            };
+
+            _inputInjector.InjectKeyboardInput(keyboardInfo);
+        }
+
         private void Search()
         {
 
-            //var listNumber = Int32.Parse(Console.ReadLine());
-            //var listName = GetRecordById(files, listNumber);
+            var listNumber = cmbSearchList.SelectedItem as Record;
 
-            //Console.WriteLine("\nHow many searches do you want to do?");
-            //var numbersOfSearchesString = Console.ReadLine();
+            if(listNumber == null)
+                return;
 
-            //Console.WriteLine("\nWhat type of search do you want?");
-            //Console.WriteLine("1 Normal (default)");
-            //Console.WriteLine("2 Search and update page");
-            //var typeSearch = Console.ReadLine();
+            var listName = GetRecordById(ViewModel.SearchListOption, listNumber.Id);
 
-            //Console.WriteLine("\nTime interval (seconds)? ");
-            //var timeInterval = Int32.Parse(Console.ReadLine());
+            
+            var numbersOfSearchesString = Int32.Parse(nbHowManySearch.Text);
 
-            //int.TryParse(numbersOfSearchesString, out int numbersOfSearchesInt);
+            var typeSearch = tgsUpdatePage.GetValue;
 
-            //var jsonFile = File.ReadAllText(listName.Path);
-            //var listOfSearch = JsonConvert.DeserializeObject<ListOfSearch>(value: jsonFile);
+            var timeInterval = Int32.Parse(nbTimeBetweenSearch.Text);
 
-            //Console.Clear();
-            //terminal.PrintFL();
 
-            //watch.Start();
+            var jsonFile = System.IO.File.ReadAllText(listName.Path);
+            var listOfSearch = JsonConvert.DeserializeObject<ListOfSearch>(value: jsonFile);
 
-            //for (int i = 0; i < numbersOfSearchesInt; i++)
-            //{
-            //    var selectedValue = automateSearch.DrawName(listOfSearch);
+            for (int i = 0; i < numbersOfSearchesString; i++)
+            {
+                var selectedValue = automateSearch.DrawName(listOfSearch);
 
-            //    PrintDateTime();
-            //    Console.WriteLine($"{listName.Name} {i + 1}/{numbersOfSearchesString}: " +
-            //                            $"{selectedValue}");
+                PrintDateTime();
 
-            //    if(typeSearch == "1")
-            //        Search(selectedValue, timeInterval);
-            //    if (typeSearch == "2")
-            //        SearchAndUpdatePage(selectedValue, timeInterval);
-            //}
+                SearchAndUpdatePage(selectedValue, timeInterval);
 
-            //watch.Stop();
+                System.Threading.Thread.Sleep(timeInterval * 100);
+            }
+
             //Console.Write($"\nFINISH - Total time: {watch.getTotalTime()}");
 
             //OpenPointPage();
-            //Console.ReadLine();
+        }
+
+        private static void PrintDateTime()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write($"[{DateTime.Now.ToLongTimeString()}] ");
+            Console.ResetColor();
+        }
+
+        private void SearchAndUpdatePage(string selectedValue, int inverval)
+        {
+            var mousePositionX = 225;
+            var mousePositiony = 130;
+
+            clipboard.SetTextClipboard(selectedValue);
+
+            mouseTools.MoveMouse(mousePositionX, mousePositiony, 500);
+            mouseTools.MouseClick(mousePositionX, mousePositiony, 2000);
+
+            InjectCtrlA_Click();
+            System.Threading.Thread.Sleep(200);
+
+            InjectCtrlV_Click();
+            System.Threading.Thread.Sleep(200);
+
+            InjectEnter_Click();
+            System.Threading.Thread.Sleep(200);
+
+        }
+
+        private static Record GetRecordById(List<Record> files, int Id)
+        {
+
+            var listName = files.Where(x => x.Id == Id).FirstOrDefault();
+            return listName;
         }
     }
 

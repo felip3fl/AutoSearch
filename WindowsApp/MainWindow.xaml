@@ -177,7 +177,7 @@
                     <ToggleSwitch Header="Desligar pós pesquisa" OffContent="Manter ligado" OnContent="Desligar" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Column="3">
-                    <ToggleSwitch Header="Atualizar página" OffContent="Apenas pesquisar" OnContent="Atualizar" IsOn="True" />
+                    <ToggleSwitch x:Name="tgsUpdatePage" Header="Atualizar página" OffContent="Apenas pesquisar" OnContent="Atualizar" IsOn="True" />
                 </StackPanel>
 
 
@@ -188,7 +188,7 @@
                 x:Name="btnExecutar"
                 HorizontalAlignment="Stretch"
                 Style="{StaticResource AccentButtonStyle}"
-                Click="{x:Bind ViewModel.UpdateStatus}"
+                Click="{x:Bind Search}"
                 >
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock Text="{x:Bind ViewModel.Status, Mode=OneWay}" VerticalAlignment="Center"/>
