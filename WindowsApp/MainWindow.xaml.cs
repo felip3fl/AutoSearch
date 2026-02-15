@@ -44,8 +44,16 @@ namespace WindowsApp
             CenterWindow();
             FixWindowSize();
             InitializeInputInjector();
+            LoadingSelectedList();
         }
 
+
+        private void LoadingSelectedList()
+        {
+            DateTime todayDate = DateTime.Now;
+            var dayOfWeek = (int)todayDate.DayOfWeek;
+            cmbSearchList.SelectedItem = ViewModel.searchListOption[dayOfWeek];
+        }
 
         private void InitializeInputInjector()
         {
@@ -301,7 +309,6 @@ namespace WindowsApp
                 return;
 
             var listName = GetRecordById(ViewModel.SearchListOption, listNumber.Id);
-
             
             var numbersOfSearchesString = Int32.Parse(nbHowManySearch.Text);
 
@@ -359,7 +366,6 @@ namespace WindowsApp
 
         private static Record GetRecordById(List<Record> files, int Id)
         {
-
             var listName = files.Where(x => x.Id == Id).FirstOrDefault();
             return listName;
         }
