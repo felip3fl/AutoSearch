@@ -188,7 +188,7 @@
                 x:Name="btnExecutar"
                 HorizontalAlignment="Stretch"
                 Style="{StaticResource AccentButtonStyle}"
-                Click="{x:Bind Search}"
+                Click="{x:Bind StartSearch}"
                 >
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock Text="{x:Bind ViewModel.Status, Mode=OneWay}" VerticalAlignment="Center"/>

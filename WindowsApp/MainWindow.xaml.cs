@@ -19,6 +19,8 @@ using Windows.UI.Input.Preview.Injection;
 using Windows.UI.Input.Preview.Injection;
 using Windows.UI.WindowManagement;
 using static System.Net.WebRequestMethods;
+using System.Threading;
+using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -29,10 +31,7 @@ namespace WindowsApp
     public sealed partial class MainWindow : Window
     {
         static AutomateSearch automateSearch = new();
-        static ClipboardHelper clipboard = new();
-        static MouseTools mouseTools = new();
-        
-        private InputInjector _inputInjector;
+
 
         public MainViewModel ViewModel { get; set; } = new MainViewModel();
 
@@ -43,7 +42,6 @@ namespace WindowsApp
 
             CenterWindow();
             FixWindowSize();
-            InitializeInputInjector();
             LoadingSelectedList();
         }
 
@@ -53,134 +51,6 @@ namespace WindowsApp
             DateTime todayDate = DateTime.Now;
             var dayOfWeek = (int)todayDate.DayOfWeek;
             cmbSearchList.SelectedItem = ViewModel.searchListOption[dayOfWeek];
-        }
-
-        private void InitializeInputInjector()
-        {
-            try
-            {
-                
-                _inputInjector = InputInjector.TryCreate();
-
-                if (_inputInjector == null)
-                {
-
-                }
-                else
-                {
-
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
-        private VirtualKey CharToVirtualKey(char c)
-        {
-            char upperChar = char.ToUpper(c);
-
-            // Letras A-Z
-            if (upperChar >= 'A' && upperChar <= 'Z')
-            {
-                return (VirtualKey)(upperChar);
-            }
-
-            // Números 0-9
-            if (c >= '0' && c <= '9')
-            {
-                return (VirtualKey)(VirtualKey.Number0 + (c - '0'));
-            }
-
-            // Espaço
-            if (c == ' ')
-            {
-                return VirtualKey.Space;
-            }
-
-            // Caracteres especiais comuns
-            return c switch
-            {
-                '!' => VirtualKey.Number1,
-                '@' => VirtualKey.Number2,
-                '#' => VirtualKey.Number3,
-                '$' => VirtualKey.Number4,
-                '%' => VirtualKey.Number5,
-                '&' => VirtualKey.Number7,
-                '*' => VirtualKey.Number8,
-                '(' => VirtualKey.Number9,
-                ')' => VirtualKey.Number0,
-                '-' => VirtualKey.Subtract,
-                '_' => VirtualKey.Subtract,
-                '=' => (VirtualKey)187, // Equal/Plus key
-                '+' => (VirtualKey)187,
-                '.' => (VirtualKey)190,
-                ',' => (VirtualKey)188,
-                ';' => (VirtualKey)186,
-                ':' => (VirtualKey)186,
-                '/' => (VirtualKey)191,
-                '?' => (VirtualKey)191,
-                _ => VirtualKey.Space // Fallback
-            };
-        }
-
-        private bool IsShiftRequired(char c)
-        {
-            return c switch
-            {
-                '!' or '@' or '#' or '$' or '%' or '&' or '*' or '(' or ')' => true,
-                '_' or '+' or ':' or '?' => true,
-                _ => false
-            };
-        }
-
-        private void InjectText(string text)
-        {
-            var keyboardInfo = new List<InjectedInputKeyboardInfo>();
-
-            foreach (char c in text)
-            {
-                // Converte o caractere para VirtualKey
-                VirtualKey virtualKey = CharToVirtualKey(c);
-                bool needsShift = char.IsUpper(c) || IsShiftRequired(c);
-
-                if (needsShift)
-                {
-                    // Pressiona Shift
-                    keyboardInfo.Add(new InjectedInputKeyboardInfo
-                    {
-                        VirtualKey = (ushort)VirtualKey.Shift,
-                        KeyOptions = InjectedInputKeyOptions.None
-                    });
-                }
-
-                // Pressiona a tecla
-                keyboardInfo.Add(new InjectedInputKeyboardInfo
-                {
-                    VirtualKey = (ushort)virtualKey,
-                    KeyOptions = InjectedInputKeyOptions.None
-                });
-
-                // Solta a tecla
-                keyboardInfo.Add(new InjectedInputKeyboardInfo
-                {
-                    VirtualKey = (ushort)virtualKey,
-                    KeyOptions = InjectedInputKeyOptions.KeyUp
-                });
-
-                if (needsShift)
-                {
-                    // Solta Shift
-                    keyboardInfo.Add(new InjectedInputKeyboardInfo
-                    {
-                        VirtualKey = (ushort)VirtualKey.Shift,
-                        KeyOptions = InjectedInputKeyOptions.KeyUp
-                    });
-                }
-            }
-
-            _inputInjector.InjectKeyboardInput(keyboardInfo);
         }
 
         private void CenterWindow()
@@ -226,84 +96,12 @@ namespace WindowsApp
             }
         }
 
-        private void InjectKeyCombo(VirtualKey modifierKey, VirtualKey key)
+
+
+        private async Task StartSearch()
         {
-            var keyboardInfo = new List<InjectedInputKeyboardInfo>
-            {
-                // Pressiona modificador (Ctrl, Alt, etc)
-                new InjectedInputKeyboardInfo
-                {
-                    VirtualKey = (ushort)modifierKey,
-                    KeyOptions = InjectedInputKeyOptions.None
-                },
-                // Pressiona a tecla principal
-                new InjectedInputKeyboardInfo
-                {
-                    VirtualKey = (ushort)key,
-                    KeyOptions = InjectedInputKeyOptions.None
-                },
-                // Solta a tecla principal
-                new InjectedInputKeyboardInfo
-                {
-                    VirtualKey = (ushort)key,
-                    KeyOptions = InjectedInputKeyOptions.KeyUp
-                },
-                // Solta o modificador
-                new InjectedInputKeyboardInfo
-                {
-                    VirtualKey = (ushort)modifierKey,
-                    KeyOptions = InjectedInputKeyOptions.KeyUp
-                }
-            };
-
-            _inputInjector.InjectKeyboardInput(keyboardInfo);
-        }
-
-        private async void InjectCtrlC_Click(object sender, RoutedEventArgs e)
-        {
-            InjectKeyCombo(VirtualKey.Control, VirtualKey.C);
-        }
-
-        private  void InjectCtrlV_Click()
-        {
-            InjectKeyCombo(VirtualKey.Control, VirtualKey.V);
-        }
-
-        private void InjectCtrlA_Click()
-        {
-            InjectKeyCombo(VirtualKey.Control, VirtualKey.A);
-        }
-
-        private void InjectEnter_Click()
-        {
-            InjectKey(VirtualKey.Enter);
-        }
-
-        private void InjectKey(VirtualKey key)
-        {
-            var keyboardInfo = new List<InjectedInputKeyboardInfo>
-            {
-                // Pressiona a tecla
-                new InjectedInputKeyboardInfo
-                {
-                    VirtualKey = (ushort)key,
-                    KeyOptions = InjectedInputKeyOptions.None
-                },
-                // Solta a tecla
-                new InjectedInputKeyboardInfo
-                {
-                    VirtualKey = (ushort)key,
-                    KeyOptions = InjectedInputKeyOptions.KeyUp
-                }
-            };
-
-            _inputInjector.InjectKeyboardInput(keyboardInfo);
-        }
-
-        private void Search()
-        {
-
             var listNumber = cmbSearchList.SelectedItem as Record;
+            List<string> listOfSearchText = new();
 
             if(listNumber == null)
                 return;
@@ -316,53 +114,18 @@ namespace WindowsApp
 
             var timeInterval = Int32.Parse(nbTimeBetweenSearch.Text);
 
-
             var jsonFile = System.IO.File.ReadAllText(listName.Path);
             var listOfSearch = JsonConvert.DeserializeObject<ListOfSearch>(value: jsonFile);
 
             for (int i = 0; i < numbersOfSearchesString; i++)
             {
-                var selectedValue = automateSearch.DrawName(listOfSearch);
-
-                PrintDateTime();
-
-                SearchAndUpdatePage(selectedValue, timeInterval);
-
-                System.Threading.Thread.Sleep(timeInterval * 100);
+                listOfSearchText.Add(automateSearch.DrawName(listOfSearch));
             }
 
-            //Console.Write($"\nFINISH - Total time: {watch.getTotalTime()}");
-
-            //OpenPointPage();
+            await ViewModel.StartSearch(listOfSearchText, timeInterval);
         }
 
-        private static void PrintDateTime()
-        {
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.Write($"[{DateTime.Now.ToLongTimeString()}] ");
-            Console.ResetColor();
-        }
 
-        private void SearchAndUpdatePage(string selectedValue, int inverval)
-        {
-            var mousePositionX = 225;
-            var mousePositiony = 130;
-
-            clipboard.SetTextClipboard(selectedValue);
-
-            mouseTools.MoveMouse(mousePositionX, mousePositiony, 500);
-            mouseTools.MouseClick(mousePositionX, mousePositiony, 2000);
-
-            InjectCtrlA_Click();
-            System.Threading.Thread.Sleep(200);
-
-            InjectCtrlV_Click();
-            System.Threading.Thread.Sleep(200);
-
-            InjectEnter_Click();
-            System.Threading.Thread.Sleep(200);
-
-        }
 
         private static Record GetRecordById(List<Record> files, int Id)
         {
