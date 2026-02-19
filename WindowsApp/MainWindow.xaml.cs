@@ -1,26 +1,17 @@
 using LocalFile.Models;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Newtonsoft.Json;
 using Search;
 using Search.Models;
-using Search.Tools;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Xml.Linq;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Graphics;
-using Windows.System;
-using Windows.UI.Input.Preview.Injection;
-using Windows.UI.Input.Preview.Injection;
-using Windows.UI.WindowManagement;
-using static System.Net.WebRequestMethods;
-using System.Threading;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Windows.Graphics;
+using Windows.UI.WindowManagement;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -65,7 +56,18 @@ namespace WindowsApp
             IntPtr hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
             var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
             var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
-            appWindow.Resize(new Windows.Graphics.SizeInt32 { Width = 700, Height = 455 });
+
+            var displayArea = DisplayArea.GetFromWindowId(windowId, DisplayAreaFallback.Primary);
+            
+
+            double scale = GetDpiForWindow(hWnd) / 96.0;
+
+
+            appWindow.Resize(new Windows.Graphics.SizeInt32
+            {
+                Width = (int)(700 * scale),
+                Height = (int)(455 * scale)
+            });
 
             var presenter = appWindow.Presenter as Microsoft.UI.Windowing.OverlappedPresenter;
             if (presenter != null)
@@ -74,6 +76,11 @@ namespace WindowsApp
                 presenter.IsMaximizable = false;
             }
         }
+
+
+        [DllImport("user32.dll")]
+        private static extern uint GetDpiForWindow(IntPtr hwnd);
+
 
         private void updateRichTextBlock()
         {

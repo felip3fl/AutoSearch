@@ -28,6 +28,7 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="Material\Icon\android-chrome-256x256.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +52,11 @@
   <ItemGroup>
     <ProjectReference Include="..\LocalFile\LocalFile.csproj" />
     <ProjectReference Include="..\Search\Search.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Assets\android-chrome-512x512.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Update="Lists\v1\City.json">
@@ -97,5 +103,6 @@
     <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
     <UseWindowsForms>False</UseWindowsForms>
+    <ApplicationIcon>Material\Icon\android-chrome-256x256.ico</ApplicationIcon>
   </PropertyGroup>
 </Project>

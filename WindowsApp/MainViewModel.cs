@@ -10,6 +10,7 @@ using Search.Tools;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.System;
@@ -25,11 +26,16 @@ namespace WindowsApp
         public partial string Status { get; set; } = "Start";
 
         [ObservableProperty]
+        public partial bool IsRunning { get; set; } = false;
+
+        [ObservableProperty]
         public List<Record> searchListOption = localFile.GetListFileName("Lists\\v1");
 
         private InputInjector _inputInjector;
         static ClipboardHelper clipboard = new();
         static MouseTools mouseTools = new();
+        private CmdExecutor _cmdExecutor = new();
+
 
         [RelayCommand]
         public void UpdateStatus()
@@ -37,9 +43,18 @@ namespace WindowsApp
             Status = "Stop running";
         }
 
+        public void UpdateRunningStatus()
+        {
+            Status = "Start";
+
+            if (IsRunning)
+                Status = "Stop search";
+        }
+
         public MainViewModel()
         {
             InitializeInputInjector();
+            UpdateRunningStatus();
         }
 
         private void InitializeInputInjector()
@@ -107,13 +122,20 @@ namespace WindowsApp
                 Thread.Sleep(threadSleep * 1000);
                 threadSleep = timeInterval;
 
+                if (!IsRunning)
+                {
+                    threadSleep = 0;
+                    return;
+                }
+                
                 SearchAndUpdatePage(item, timeInterval);
             }
+
         }
 
         private void SearchAndUpdatePage(string selectedValue, int inverval)
         {
-            var mousePositionX = 225;
+            var mousePositionX = 240;
             var mousePositiony = 130;
 
             clipboard.SetTextClipboard(selectedValue);
@@ -219,7 +241,20 @@ namespace WindowsApp
         
         public async Task StartSearch(List<string> listOfSearchText, int timeInterval)
         {
+            IsRunning = !IsRunning;
+            UpdateRunningStatus();
+
+            if (!IsRunning)
+            {
+                _cmdExecutor.StopShutDownComputer();
+                return;
+            }
+
+            var timeToFinishSearch = (listOfSearchText.Count * timeInterval) + 5;
+            _cmdExecutor.ShutDownComputer(timeToFinishSearch);
+
             Task.Run(async () => SearchAsync(listOfSearchText, timeInterval));
+                
         }
 
         private void InjectText(string text)
