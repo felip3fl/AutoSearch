@@ -1,9 +1,11 @@
-﻿namespace AutoSearch.Tools
+﻿namespace Search.Tools
 {
     public class KeyTools
     {
         const int DefaultTimeSleepBefore = 500;
         const int DefaulttimeSleepAfter = 0;
+        
+
         private void SendKeyCombination(string keyCombination, int timeSleepBefore, int timeSleepAfter)
         {
             TimeSleep(timeSleepBefore);

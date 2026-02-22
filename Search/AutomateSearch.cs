@@ -1,50 +1,98 @@
 ﻿using Search.Models;
+using Search.Tools;
 using System.Text.RegularExpressions;
+using TextCopy;
 
-namespace Search
+namespace Search;
+
+public class AutomateSearch
 {
-    public class AutomateSearch
+    static List<int> excludedNumbers = new();
+    static MouseTools mouseTools = new();
+    static ClipboardHelper clipboard = new();
+    static KeyTools keyTools = new();
+    static bool IsRunning = true;
+
+    public event EventHandler processCompleted;
+    public event EventHandler<string> runningSearch;
+
+    public string DrawName(ListOfSearch listOfSearch)
     {
-        static List<int> excludedNumbers = new();
-        public string DrawName(ListOfSearch listOfSearch)
+        Random rnd = new Random();
+
+        int musicIndex = rnd.Next(1, listOfSearch.Name.Count());
+
+        if (CheckExcludedNumbers(musicIndex))
+            return DrawName(listOfSearch);
+
+        AddExcludedNumbers(musicIndex);
+
+        var selectedValue = listOfSearch.Name[musicIndex];
+
+        if (ContainsNonAlphabeticalCharacters(selectedValue))
+            return DrawName(listOfSearch);
+
+        return selectedValue;
+    }
+
+    private static bool CheckExcludedNumbers(int number)
+    {
+        if (excludedNumbers.Contains(number))
         {
-            Random rnd = new Random();
-
-            int musicIndex = rnd.Next(1, listOfSearch.Name.Count());
-
-            if (CheckExcludedNumbers(musicIndex))
-                return DrawName(listOfSearch);
-
-            AddExcludedNumbers(musicIndex);
-
-            var selectedValue = listOfSearch.Name[musicIndex];
-
-            if (ContainsNonAlphabeticalCharacters(selectedValue))
-                return DrawName(listOfSearch);
-
-            return selectedValue;
+            return true;
         }
+        return false;
+    }
 
-        private static bool CheckExcludedNumbers(int number)
+    public static bool ContainsNonAlphabeticalCharacters(string input)
+    {
+        var isMatch = !Regex.IsMatch(input, @"^[a-zA-Z"",.()!?'\-\s]*$");
+        return isMatch;
+    }
+
+    private static void AddExcludedNumbers(int numberToExclude)
+    {
+        excludedNumbers.Add(numberToExclude);
+    }
+
+    public async void SearchAsync(List<string> listOfSearchText, int timeInterval)
+    {
+        var threadSleep = 5;
+        foreach (var item in listOfSearchText)
         {
-            if (excludedNumbers.Contains(number))
+            Thread.Sleep(threadSleep * 1000);
+            threadSleep = timeInterval;
+
+            if (!IsRunning)
             {
-                return true;
+                threadSleep = 0;
+                return;
             }
-            return false;
+
+            runningSearch?.Invoke(this, item);
+            SearchAndUpdatePage(item, timeInterval);
         }
 
-        public static bool ContainsNonAlphabeticalCharacters(string input)
-        {
-            var isMatch = !Regex.IsMatch(input, @"^[a-zA-Z"",.()!?'\-\s]*$");
-            return isMatch;
-        }
+        processCompleted?.Invoke(this, EventArgs.Empty);
 
-        private static void AddExcludedNumbers(int numberToExclude)
-        {
-            excludedNumbers.Add(numberToExclude);
-        }
+    }
+
+    public void SearchAndUpdatePage(string selectedValue, int inverval)
+    {
+        var mousePositionX = 240;
+        var mousePositiony = 130;
+
+        clipboard.SetTextClipboard(selectedValue);
+
+        mouseTools.MoveMouse(mousePositionX, mousePositiony, 500);
+        mouseTools.MouseClick(mousePositionX, mousePositiony, 200);
+
+        //keyTools.SendCtrlA();
+        //keyTools.SendCtrlV();
+        //keyTools.SendEnter();
 
     }
 
 }
+
+
