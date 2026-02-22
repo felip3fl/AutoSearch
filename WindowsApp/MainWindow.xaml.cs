@@ -22,6 +22,8 @@ namespace WindowsApp
     public sealed partial class MainWindow : Window
     {
         static AutomateSearch automateSearch = new();
+        public List<string> listOfSearchText = new();
+        
 
 
         public MainViewModel ViewModel { get; set; } = new MainViewModel();
@@ -84,23 +86,15 @@ namespace WindowsApp
 
         private void updateRichTextBlock()
         {
-            List<string> logItems = new List<string>
-            {
-                "Pesquisa iniciada: São Paulo",
-                "Aguardando 60 segundos...",
-                "Pesquisa iniciada: Rio de Janeiro",
+            //richTextBlock.Blocks.Clear();
 
-            };
-
-            richTextBlock.Blocks.Clear();
-
-            foreach (var item in logItems)
-            {
-                Paragraph paragraph = new Paragraph();
-                Run run = new Run { Text = item };
-                paragraph.Inlines.Add(run);
-                richTextBlock.Blocks.Add(paragraph);
-            }
+            //foreach (var item in listOfSearchText)
+            //{
+            //    Paragraph paragraph = new Paragraph();
+            //    Run run = new Run { Text = item };
+            //    paragraph.Inlines.Add(run);
+            //    richTextBlock.Blocks.Add(paragraph);
+            //}
         }
 
 
@@ -108,9 +102,11 @@ namespace WindowsApp
         private async Task StartSearch()
         {
             var listNumber = cmbSearchList.SelectedItem as Record;
-            List<string> listOfSearchText = new();
 
-            if(listNumber == null)
+            sbiButtonIco.Symbol = Microsoft.UI.Xaml.Controls.Symbol.Pause;
+            listOfSearchText = new();
+
+            if (listNumber == null)
                 return;
 
             var listName = GetRecordById(ViewModel.SearchListOption, listNumber.Id);
@@ -128,6 +124,8 @@ namespace WindowsApp
             {
                 listOfSearchText.Add(automateSearch.DrawName(listOfSearch));
             }
+
+            updateRichTextBlock();
 
             await ViewModel.StartSearch(listOfSearchText, timeInterval);
         }

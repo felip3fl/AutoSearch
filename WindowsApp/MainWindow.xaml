@@ -41,17 +41,21 @@
 
             <StackPanel Grid.Row="1" >
 
-            <ScrollViewer Height="400" Width="270" ZoomMode="Enabled"
-            IsTabStop="True" IsVerticalScrollChainingEnabled="True"
-            HorizontalAlignment="Left" VerticalAlignment="Top"
-            
+            <ScrollViewer Height="366"  ZoomMode="Enabled"
+
             HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto"
             VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto">
-                    <RichTextBlock Margin="30,0,0,0" 
-                                   x:Name="richTextBlock"
-                                   ScrollViewer.VerticalScrollBarVisibility="Visible"  >
-                        <Paragraph>City</Paragraph>
-                    </RichTextBlock>
+
+                    <ListView           
+             Width="Auto"  ItemsSource="{x:Bind ViewModel.logs, Mode=OneWay}"
+                              >
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <TextBlock Text="{x:Bind}" Padding="8,4"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
                 </ScrollViewer>
 
             </StackPanel>
@@ -81,7 +85,7 @@
 
                 <StackPanel Grid.Column="2" VerticalAlignment="Center" >
                     <TextBlock x:Name="txtCaminhoArquivoas" FontSize="20" FontWeight="Bold" Text="FLex auto search"/>
-                    <TextBlock TextWrapping="Wrap" Width="380" x:Name="txtCaminhoArquivo" Text="Versão 1.26.01.04"/>
+                    <TextBlock TextWrapping="Wrap" Width="380" x:Name="txtCaminhoArquivo" Text="Versão 1.26.02.21"/>
                 </StackPanel>
                 <!--<TextBox 
                     x:Name="txtCaminhoArquivo"
@@ -192,8 +196,7 @@
                 >
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock Text="{x:Bind ViewModel.Status, Mode=OneWay}" VerticalAlignment="Center"/>
-                        <SymbolIcon Symbol="Find"/>
-
+                        <SymbolIcon x:Name="sbiButtonIco" Symbol="Find"/>
                     </StackPanel>
                 </Button>
             </Grid>
