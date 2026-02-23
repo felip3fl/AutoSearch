@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Networking;
+using WindowsApp.Model;
 
 namespace WindowsApp
 {
@@ -24,6 +25,19 @@ namespace WindowsApp
         [ObservableProperty]
         public partial string Status { get; set; } = "Start";
 
+        public  FrontText frontText { get; set; } = new()
+        {
+            ProjectName = "FLex auto search",
+            ProjectVersion = "Versão 1.26.02.21",
+            HowManySearch = "Quantas pesquisas",
+            HowLong = "Tempo em segundos",
+            ListOfSearchOption = "Lista de pesquisa:",
+            TurnOfComputer = new OptionText() { mainDescription = "Desligar pós pesquisa", turnOff = "Manter ligado", turnOn = "Desligar" },
+            UpdateThePage = new OptionText() { mainDescription = "Atualizar página", turnOff = "Apenas pesquisar", turnOn = "Atualizar" },
+            MainButton = "Começar",
+            Log = "Log",
+        };
+        
         [ObservableProperty]
         public partial bool IsRunning { get; set; } = false;
 
@@ -83,6 +97,8 @@ namespace WindowsApp
         
         public async Task StartSearch(List<string> listOfSearchText, int timeInterval)
         {
+            frontText.ProjectName = "aasdjoialskd";
+
             IsRunning = !IsRunning;
             UpdateRunningStatus();
 

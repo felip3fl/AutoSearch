@@ -83,9 +83,9 @@
                 </Grid.ColumnDefinitions>
 
 
-                <StackPanel Grid.Column="2" VerticalAlignment="Center" >
-                    <TextBlock x:Name="txtCaminhoArquivoas" FontSize="20" FontWeight="Bold" Text="FLex auto search"/>
-                    <TextBlock TextWrapping="Wrap" Width="380" x:Name="txtCaminhoArquivo" Text="Versão 1.26.02.21"/>
+                <StackPanel Grid.Column="2" VerticalAlignment="Center" Padding="0,0,0,4">
+                    <TextBlock x:Name="txtCaminhoArquivoas" FontSize="20" FontWeight="Bold" Text="{x:Bind ViewModel.frontText.ProjectName , Mode=OneWay}"/>
+                    <TextBlock TextWrapping="Wrap" Width="380" x:Name="txtCaminhoArquivo" Text="{x:Bind ViewModel.frontText.ProjectVersion, Mode=OneWay}"/>
                 </StackPanel>
                 <!--<TextBox 
                     x:Name="txtCaminhoArquivo"
@@ -109,7 +109,7 @@
 
                 <NumberBox
                 x:Name="nbHowManySearch"
-                Header="Quantas pesquisas"
+                Header="{x:Bind ViewModel.frontText.HowManySearch}"
                 Value="30"
                 Grid.Column="0"
                 SpinButtonPlacementMode="Inline"
@@ -118,7 +118,7 @@
 
                 <NumberBox
                 x:Name="nbTimeBetweenSearch"
-                Header="Tempo em segundos"
+                Header="{x:Bind ViewModel.frontText.HowLong}"
                 Value="60"
                 Grid.Column="2"
                 SpinButtonPlacementMode="Inline"
@@ -132,7 +132,7 @@
 
 
                 <ComboBox x:Name="cmbSearchList" 
-                          Header="Lista de pesquisa:" 
+                          Header="{x:Bind ViewModel.frontText.ListOfSearchOption}" 
                           PlaceholderText="Selecione a lista" 
                           HorizontalAlignment="Stretch"
                           ItemsSource="{x:Bind ViewModel.searchListOption}"
@@ -178,10 +178,10 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal" Grid.Column="0">
-                    <ToggleSwitch Header="Desligar pós pesquisa" OffContent="Manter ligado" OnContent="Desligar" />
+                    <ToggleSwitch Header="{x:Bind ViewModel.frontText.TurnOfComputer.mainDescription}" OffContent="{x:Bind ViewModel.frontText.TurnOfComputer.turnOn}" OnContent="{x:Bind ViewModel.frontText.TurnOfComputer.turnOff}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Column="3">
-                    <ToggleSwitch x:Name="tgsUpdatePage" Header="Atualizar página" OffContent="Apenas pesquisar" OnContent="Atualizar" IsOn="True" />
+                    <ToggleSwitch x:Name="tgsUpdatePage" Header="{x:Bind ViewModel.frontText.UpdateThePage.mainDescription}" OffContent="{x:Bind ViewModel.frontText.UpdateThePage.turnOn}" OnContent="{x:Bind ViewModel.frontText.UpdateThePage.turnOff}" IsOn="True" />
                 </StackPanel>
 
 
