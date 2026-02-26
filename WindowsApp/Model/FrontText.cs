@@ -16,6 +16,12 @@ public partial class FrontText : ObservableObject
     public string MainButton { get; set; }
     public string Log { get; set; }
 
+    [ObservableProperty]
+    public partial string HowLongSubText { get; set; }
+
+    [ObservableProperty]
+    public partial string HowManySearchSubText { get; set; }
+
 }
 
 public class OptionText
