@@ -16,18 +16,18 @@ public class AutomateSearch
     public event EventHandler processCompleted;
     public event EventHandler<string> runningSearch;
 
-    public string DrawName(ListOfSearch listOfSearch)
+    public string DrawName(List<string> listOfSearch)
     {
         Random rnd = new Random();
 
-        int musicIndex = rnd.Next(1, listOfSearch.Name.Count());
+        int listIndex = rnd.Next(1, listOfSearch.Count());
 
-        if (CheckExcludedNumbers(musicIndex))
+        if (CheckExcludedNumbers(listIndex))
             return DrawName(listOfSearch);
 
-        AddExcludedNumbers(musicIndex);
+        AddExcludedNumbers(listIndex);
 
-        var selectedValue = listOfSearch.Name[musicIndex];
+        var selectedValue = listOfSearch[listIndex];
 
         if (ContainsNonAlphabeticalCharacters(selectedValue))
             return DrawName(listOfSearch);
