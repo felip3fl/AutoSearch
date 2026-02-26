@@ -9,7 +9,7 @@
     xmlns:local="using:LocalFile.Models"
     
     mc:Ignorable="d"
-    Title="AutoSearch">
+    Title="FLex Search">
 
     <Window.SystemBackdrop>
         <DesktopAcrylicBackdrop />

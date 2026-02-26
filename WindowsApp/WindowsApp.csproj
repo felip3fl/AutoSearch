@@ -59,25 +59,25 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Update="Lists\v1\City.json">
+    <None Update="Lists\v1\City.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Lists\v1\Company.json">
+    <None Update="Lists\v1\Company.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Lists\v1\Country.json">
+    <None Update="Lists\v1\Country.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Lists\v1\Game.json">
+    <None Update="Lists\v1\Game.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Lists\v1\Music.json">
+    <None Update="Lists\v1\Music.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Lists\v1\Pokemon.json">
+    <None Update="Lists\v1\Pokemon.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Lists\v1\Word.json">
+    <None Update="Lists\v1\Word.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -104,5 +104,7 @@
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
     <UseWindowsForms>False</UseWindowsForms>
     <ApplicationIcon>Material\Icon\android-chrome-256x256.ico</ApplicationIcon>
+    <AssemblyName>FLexSearch</AssemblyName>
+    <AssemblyTitle>FLexSearch</AssemblyTitle>
   </PropertyGroup>
 </Project>
