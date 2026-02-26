@@ -79,7 +79,7 @@ public class AutomateSearch
 
     public void SearchAndUpdatePage(string selectedValue, int inverval)
     {
-        var mousePositionX = 240;
+        var mousePositionX = 260;
         var mousePositiony = 130;
 
         clipboard.SetTextClipboard(selectedValue);
@@ -87,9 +87,9 @@ public class AutomateSearch
         mouseTools.MoveMouse(mousePositionX, mousePositiony, 500);
         mouseTools.MouseClick(mousePositionX, mousePositiony, 200);
 
-        //keyTools.SendCtrlA();
-        //keyTools.SendCtrlV();
-        //keyTools.SendEnter();
+        keyTools.SendCtrlA();
+        keyTools.SendCtrlV();
+        keyTools.SendEnter();
 
     }
 
