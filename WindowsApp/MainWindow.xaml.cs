@@ -1,10 +1,8 @@
 using LocalFile.Models;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Documents;
-using Newtonsoft.Json;
+using Microsoft.UI.Xaml.Controls;
 using Search;
-using Search.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +10,6 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.Graphics;
 using Windows.UI.WindowManagement;
-using WindowsApp.Model;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -84,51 +81,46 @@ namespace WindowsApp
         [DllImport("user32.dll")]
         private static extern uint GetDpiForWindow(IntPtr hwnd);
 
-
-        private void updateRichTextBlock()
-        {
-            //richTextBlock.Blocks.Clear();
-
-            //foreach (var item in listOfSearchText)
-            //{
-            //    Paragraph paragraph = new Paragraph();
-            //    Run run = new Run { Text = item };
-            //    paragraph.Inlines.Add(run);
-            //    richTextBlock.Blocks.Add(paragraph);
-            //}
-        }
-
- 
-
         private async Task StartSearch()
         {
-            var listNumber = cmbSearchList.SelectedItem as Record;
-
-            sbiButtonIco.Symbol = Microsoft.UI.Xaml.Controls.Symbol.Pause;
-            listOfSearchText = new();
-
-            if (listNumber == null)
-                return;
-
-            var listName = GetRecordById(ViewModel.SearchListOption, listNumber.Id);
-            
-            var numbersOfSearchesString = Int32.Parse(nbHowManySearch.Text);
-
-            var typeSearch = tgsUpdatePage.GetValue;
-
-            var timeInterval = Int32.Parse(nbTimeBetweenSearch.Text);
-
-            var jsonFile = System.IO.File.ReadAllText(listName.Path);
-            var listOfSearch = JsonConvert.DeserializeObject<ListOfSearch>(value: jsonFile);
-
-            for (int i = 0; i < numbersOfSearchesString; i++)
+            try
             {
-                listOfSearchText.Add(automateSearch.DrawName(listOfSearch));
+                var listNumber = cmbSearchList.SelectedItem as Record;
+
+                listOfSearchText = new();
+
+                if (listNumber == null)
+                    return;
+
+                var listName = GetRecordById(ViewModel.SearchListOption, listNumber.Id);
+
+                var numbersOfSearchesString = Int32.Parse(nbHowManySearch.Text);
+
+                var typeSearch = tgsUpdatePage.GetValue;
+
+                var timeInterval = Int32.Parse(nbTimeBetweenSearch.Text);
+
+                var fileContent = System.IO.File.ReadAllLines(listName.Path);
+
+                if (fileContent == null)
+                    return;
+
+                var listFileContent = fileContent.ToList();
+
+                for (int i = 0; i < numbersOfSearchesString; i++)
+                {
+                    listOfSearchText.Add(automateSearch.DrawName(listFileContent));
+                }
+
+                sbiButtonIco.Symbol = Microsoft.UI.Xaml.Controls.Symbol.Pause;
+                await ViewModel.StartSearch(listOfSearchText, timeInterval);
+            }
+            catch (Exception error)
+            {
+
+                await showDialog("Falha ao preparar a pesquisa", error.Message.ToString(), "Copiar mensagem");
             }
 
-            updateRichTextBlock();
-
-            await ViewModel.StartSearch(listOfSearchText, timeInterval);
         }
 
 
@@ -137,6 +129,21 @@ namespace WindowsApp
         {
             var listName = files.Where(x => x.Id == Id).FirstOrDefault();
             return listName;
+        }
+
+        private async Task showDialog(string title, string message, string primaryButtonText = "OK", string closeButtonText = "Fechar")
+        {
+            var dialog = new ContentDialog
+            {
+                Title = title,
+                Content = message,
+                PrimaryButtonText = primaryButtonText,
+                CloseButtonText = closeButtonText,
+                DefaultButton = ContentDialogButton.Primary,
+                XamlRoot = this.Content.XamlRoot
+            };
+
+            await dialog.ShowAsync();
         }
     }
 
