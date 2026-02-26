@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.Graphics;
 using Windows.UI.WindowManagement;
+using WindowsApp.Model;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -68,7 +69,7 @@ namespace WindowsApp
             appWindow.Resize(new Windows.Graphics.SizeInt32
             {
                 Width = (int)(700 * scale),
-                Height = (int)(455 * scale)
+                Height = (int)(475 * scale)
             });
 
             var presenter = appWindow.Presenter as Microsoft.UI.Windowing.OverlappedPresenter;
@@ -97,7 +98,7 @@ namespace WindowsApp
             //}
         }
 
-
+ 
 
         private async Task StartSearch()
         {
