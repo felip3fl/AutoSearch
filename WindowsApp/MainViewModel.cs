@@ -21,7 +21,7 @@ namespace WindowsApp
     {
         static JsonLocalFile localFile = new();
         
-        public ObservableCollection<string> logs = new();
+        public ObservableCollection<string> logs = new() { "Iniciando"};
 
         [ObservableProperty]
         public partial int HowLongTime { get; set; } = 60;
@@ -35,7 +35,7 @@ namespace WindowsApp
         public  FrontText frontText { get; set; } = new()
         {
             ProjectName = "FLex auto search",
-            ProjectVersion = "Versão 1.26.02.25",
+            ProjectVersion = "Versão 1.26.02.28",
             HowManySearch = "Quantas pesquisas",
             HowManySearchSubText = "Quantas pesquisas",
             HowLong = "Tempo em segundos",
@@ -134,16 +134,8 @@ namespace WindowsApp
         
         public async Task StartSearch(List<string> listOfSearchText, int timeInterval)
         {
-            frontText.ProjectName = "aasdjoialskd";
-
             IsRunning = !IsRunning;
             UpdateRunningStatus();
-
-            if (!IsRunning)
-            {
-                _cmdExecutor.StopShutDownComputer();
-                return;
-            }
 
             Task.Run(async () => _superAutomateSearch.SearchAsync(listOfSearchText, timeInterval));
                 
