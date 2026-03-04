@@ -106,5 +106,7 @@
     <ApplicationIcon>Material\Icon\android-chrome-256x256.ico</ApplicationIcon>
     <AssemblyName>FLexSearch</AssemblyName>
     <AssemblyTitle>FLexSearch</AssemblyTitle>
+    <IncrementVersionOnBuild>1.yy.Mdd.Hmm</IncrementVersionOnBuild>
+    <Version>1.26.304.2046</Version>
   </PropertyGroup>
 </Project>
