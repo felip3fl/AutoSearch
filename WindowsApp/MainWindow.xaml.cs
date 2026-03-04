@@ -1,3 +1,4 @@
+using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -17,15 +18,23 @@ namespace WindowsApp
     {
         [DllImport("user32.dll")]
         private static extern uint GetDpiForWindow(IntPtr hwnd);
+
+        private WindowId windowId;
+        private Microsoft.UI.Windowing.AppWindow appWindow;
+        private IntPtr windowHandle;
         public MainViewModel ViewModel { get; set; } = new MainViewModel();
 
         public MainWindow()
         {
             InitializeComponent();
+            LoadingWindowID();
 
             TurnOnExtendsContentIntoTitleBar();
             FixWindowSize();
             CenterWindow();
+            DisableMaximizeButton();
+            WindowAlwaysOnTop();
+
             LoadingSelectedList();
         }
 
@@ -45,24 +54,23 @@ namespace WindowsApp
             AppWindow.Move(new PointInt32((area.Value.Width - AppWindow.Size.Width) / 2, (area.Value.Height - AppWindow.Size.Height) / 2));
         }
 
-        private void FixWindowSize()
+        private void WindowAlwaysOnTop()
         {
-            IntPtr hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
-            var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
-            var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
-
-            var displayArea = DisplayArea.GetFromWindowId(windowId, DisplayAreaFallback.Primary);
-            
-
-            double scale = GetDpiForWindow(hWnd) / 96.0;
-
-
-            appWindow.Resize(new Windows.Graphics.SizeInt32
+            if (appWindow.Presenter is OverlappedPresenter overlappedPresenter)
             {
-                Width = (int)(700 * scale),
-                Height = (int)(475 * scale)
-            });
+                overlappedPresenter.IsAlwaysOnTop = true;
+            }
+        }
 
+        private void LoadingWindowID()
+        {
+            windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
+            appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
+        }
+
+        private void DisableMaximizeButton()
+        {
             var presenter = appWindow.Presenter as Microsoft.UI.Windowing.OverlappedPresenter;
             if (presenter != null)
             {
@@ -71,6 +79,17 @@ namespace WindowsApp
             }
         }
 
+        private void FixWindowSize()
+        {
+            var displayArea = DisplayArea.GetFromWindowId(windowId, DisplayAreaFallback.Primary);
+            double scale = GetDpiForWindow(windowHandle) / 96.0;
+            appWindow.Resize(new Windows.Graphics.SizeInt32
+            {
+                Width = (int)(700 * scale),
+                Height = (int)(475 * scale)
+            });
+
+        }
 
         private async Task ShowDialog(string title, string message, string primaryButtonText = "OK", string closeButtonText = "Fechar")
         {
