@@ -43,7 +43,6 @@
             </StackPanel>
 
             <StackPanel Grid.Row="1">
-
                 <ScrollViewer Height="366"
                         ZoomMode="Enabled"
                               HorizontalScrollMode="Enabled"
@@ -56,14 +55,8 @@
                             ItemsSource="{x:Bind ViewModel.loog, Mode=TwoWay}">
 
                     </ListView>
-
                 </ScrollViewer>
-
             </StackPanel>
-
-
-
-
         </Grid>
 
         <Grid  Grid.Column="0">
@@ -98,14 +91,6 @@
                             x:Name="txtCaminhoArquivo"
                             Text="{x:Bind ViewModel.frontText.ProjectVersion, Mode=OneWay}"/>
                 </StackPanel>
-                <!--<TextBox 
-                    x:Name="txtCaminhoArquivo"
-                    Grid.Column="0"
-                    PlaceholderText="Selecione um arquivo..."
-                    IsReadOnly="True"
-                    FlowDirection="RightToLeft"
-                    Margin="0,0,20,0"/>-->
-
 
                 <Image Source="/Assets/android-chrome-512x512.png"
                         Grid.Column="0"
