@@ -1,11 +1,7 @@
-using LocalFile.Models;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Search;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.Graphics;
@@ -19,28 +15,26 @@ namespace WindowsApp
 
     public sealed partial class MainWindow : Window
     {
-        static AutomateSearch automateSearch = new();
-        public List<string> listOfSearchText = new();
-
-
-
+        [DllImport("user32.dll")]
+        private static extern uint GetDpiForWindow(IntPtr hwnd);
         public MainViewModel ViewModel { get; set; } = new MainViewModel();
 
         public MainWindow()
         {
             InitializeComponent();
-            ExtendsContentIntoTitleBar = true;
 
-            CenterWindow();
+            TurnOnExtendsContentIntoTitleBar();
             FixWindowSize();
+            CenterWindow();
             LoadingSelectedList();
         }
 
+        private void TurnOnExtendsContentIntoTitleBar() {
+            ExtendsContentIntoTitleBar = true;
+        }
 
         private void LoadingSelectedList()
         {
-            //DateTime todayDate = DateTime.Now;
-            //var dayOfWeek = (int)todayDate.DayOfWeek;
             cmbSearchList.SelectedItem = ViewModel.SelectedSearchListOption;
         }
 
@@ -78,62 +72,7 @@ namespace WindowsApp
         }
 
 
-        [DllImport("user32.dll")]
-        private static extern uint GetDpiForWindow(IntPtr hwnd);
-
-        private async Task StartSearch()
-        {
-            try
-            {
-                var listNumber = cmbSearchList.SelectedItem as Record;
-
-                listOfSearchText = new();
-
-                if (listNumber == null)
-                    return;
-
-                var listName = GetRecordById(ViewModel.SearchListOption, listNumber.Id);
-
-                var numbersOfSearchesString = Int32.Parse(nbHowManySearch.Text);
-
-                var typeSearch = tgsUpdatePage.GetValue;
-
-                var timeInterval = Int32.Parse(nbTimeBetweenSearch.Text);
-
-                var fileContent = System.IO.File.ReadAllLines(listName.Path);
-
-                if (fileContent == null)
-                    return;
-
-                var listFileContent = fileContent.ToList();
-
-                for (int i = 0; i < numbersOfSearchesString; i++)
-                {
-                    listOfSearchText.Add(automateSearch.DrawName(listFileContent));
-                }
-
-                sbiButtonIco.Symbol = Microsoft.UI.Xaml.Controls.Symbol.Pause;
-                await ViewModel.StartSearch(listOfSearchText, timeInterval);
-
-            }
-            catch (Exception error)
-            {
-                await showDialog("Falha ao preparar a pesquisa", error.Message.ToString(), "Copiar mensagem");
-            }
-
-        }
-
-
-
-
-
-        private static Record GetRecordById(List<Record> files, int Id)
-        {
-            var listName = files.Where(x => x.Id == Id).FirstOrDefault();
-            return listName;
-        }
-
-        private async Task showDialog(string title, string message, string primaryButtonText = "OK", string closeButtonText = "Fechar")
+        private async Task ShowDialog(string title, string message, string primaryButtonText = "OK", string closeButtonText = "Fechar")
         {
             var dialog = new ContentDialog
             {
