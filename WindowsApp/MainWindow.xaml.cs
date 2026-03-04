@@ -21,7 +21,7 @@ namespace WindowsApp
     {
         static AutomateSearch automateSearch = new();
         public List<string> listOfSearchText = new();
-        
+
 
 
         public MainViewModel ViewModel { get; set; } = new MainViewModel();
@@ -39,9 +39,9 @@ namespace WindowsApp
 
         private void LoadingSelectedList()
         {
-            DateTime todayDate = DateTime.Now;
-            var dayOfWeek = (int)todayDate.DayOfWeek;
-            cmbSearchList.SelectedItem = ViewModel.searchListOption[dayOfWeek];
+            //DateTime todayDate = DateTime.Now;
+            //var dayOfWeek = (int)todayDate.DayOfWeek;
+            cmbSearchList.SelectedItem = ViewModel.SelectedSearchListOption;
         }
 
         private void CenterWindow()
@@ -114,14 +114,16 @@ namespace WindowsApp
 
                 sbiButtonIco.Symbol = Microsoft.UI.Xaml.Controls.Symbol.Pause;
                 await ViewModel.StartSearch(listOfSearchText, timeInterval);
+
             }
             catch (Exception error)
             {
-
                 await showDialog("Falha ao preparar a pesquisa", error.Message.ToString(), "Copiar mensagem");
             }
 
         }
+
+
 
 
 
