@@ -20,7 +20,7 @@ namespace WindowsApp
         private static extern uint GetDpiForWindow(IntPtr hwnd);
 
         private WindowId windowId;
-        private Microsoft.UI.Windowing.AppWindow appWindow;
+        private Microsoft.UI.Windowing.AppWindow appWindow = null!;
         private IntPtr windowHandle;
         public MainViewModel ViewModel { get; set; } = new MainViewModel();
 

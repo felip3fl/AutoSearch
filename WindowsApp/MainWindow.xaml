@@ -36,10 +36,10 @@
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0">
-                <TextBlock Margin="30,30,0,20"
+                <TextBlock Margin="15,20,20,15"
                         FontSize="20"
                         FontWeight="Bold"
-                        Text="Log"/>
+                        Text="Logs"/>
             </StackPanel>
 
             <StackPanel Grid.Row="1">
