@@ -3,17 +3,14 @@ using CommunityToolkit.Mvvm.Input;
 using LocalFile;
 using LocalFile.Models;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.VisualBasic.Logging;
-using Newtonsoft.Json.Linq;
 using Search;
 using Search.Tools;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Networking;
 using WindowsApp.Command;
 using WindowsApp.Model;
 
@@ -48,7 +45,7 @@ namespace WindowsApp
         public  FrontText frontText { get; set; } = new()
         {
             ProjectName = "FLex auto search",
-            ProjectVersion = "Versão 1.26.03.04",
+            ProjectVersion = $"Versão {GetAssemblyVersion()}",
             HowManySearch = "Quantas pesquisas",
             HowManySearchSubText = "Quantas pesquisas",
             HowLong = "Tempo em segundos",
@@ -79,6 +76,24 @@ namespace WindowsApp
         public void UpdateStatus()
         {
             Status = "Stop running";
+        }
+
+        public static string GetAssemblyVersion()
+        {
+            var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
+            if (assembly == null)
+            {
+                return "0.0.0.0";
+            }
+
+            var fileVersionAttr = assembly.GetCustomAttribute<AssemblyFileVersionAttribute>();
+            if (!string.IsNullOrEmpty(fileVersionAttr?.Version))
+            {
+                return fileVersionAttr.Version!;
+            }
+
+            var nameVersion = assembly.GetName()?.Version?.ToString();
+            return !string.IsNullOrEmpty(nameVersion) ? nameVersion! : "0.0.0.0";
         }
 
         public void HowManySearchSubTextUpdate(NumberBox sender, NumberBoxValueChangedEventArgs args)
