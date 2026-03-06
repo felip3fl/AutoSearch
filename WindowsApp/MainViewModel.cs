@@ -7,8 +7,11 @@ using Search;
 using Search.Tools;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using WindowsApp.Command;
@@ -18,7 +21,7 @@ namespace WindowsApp
 {
     public partial class MainViewModel : ObservableObject
     {
-         
+
 
         static JsonLocalFile localFile = new();
         static AutomateSearch automateSearch = new();
@@ -42,6 +45,20 @@ namespace WindowsApp
         [ObservableProperty]
         public partial string Status { get; set; } = "Start";
 
+        [ObservableProperty]
+        public partial bool IsRunning { get; set; } = false;
+
+        [ObservableProperty]
+        public List<Record> searchListOption = localFile.GetListFileName("Lists\\v1");
+
+
+        public int searchDone = 0;
+
+        private CmdExecutor _cmdExecutor = new();
+        private AutomateSearch _superAutomateSearch = new();
+
+        private readonly SynchronizationContext _uiContext;
+
         public  FrontText frontText { get; set; } = new()
         {
             ProjectName = "FLex auto search",
@@ -58,20 +75,6 @@ namespace WindowsApp
 
         };
         
-        [ObservableProperty]
-        public partial bool IsRunning { get; set; } = false;
-
-        [ObservableProperty]
-        public List<Record> searchListOption = localFile.GetListFileName("Lists\\v1");
-
-        
-        public int searchDone = 0;
-
-        private CmdExecutor _cmdExecutor = new();
-        private AutomateSearch _superAutomateSearch = new();
-
-        private readonly SynchronizationContext _uiContext;
-
         [RelayCommand]
         public void UpdateStatus()
         {
