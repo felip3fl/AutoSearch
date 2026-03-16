@@ -207,7 +207,9 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal"
                         Grid.Column="0">
-                    <ToggleSwitch Header="{x:Bind ViewModel.frontText.TurnOfComputer.mainDescription}"
+                    <ToggleSwitch x:Name="tgsTurnOffComputer"
+                            Header="{x:Bind ViewModel.frontText.TurnOfComputer.mainDescription}"
+                            IsOn="{x:Bind ViewModel.TurnOffComputer, Mode=TwoWay}"
                             OffContent="{x:Bind ViewModel.frontText.TurnOfComputer.turnOn}"
                             OnContent="{x:Bind ViewModel.frontText.TurnOfComputer.turnOff}"/>
                 </StackPanel>

@@ -49,6 +49,9 @@ namespace WindowsApp
         public partial bool IsRunning { get; set; } = false;
 
         [ObservableProperty]
+        public partial bool TurnOffComputer { get; set; } = true;
+
+        [ObservableProperty]
         public List<Record> searchListOption = localFile.GetListFileName("Lists\\v1");
 
 
@@ -68,7 +71,7 @@ namespace WindowsApp
             HowLong = "Tempo em segundos",
             HowLongSubText = "Tempo em segundos",
             ListOfSearchOption = "Lista de pesquisa:",
-            TurnOfComputer = new OptionText() { mainDescription = "Desligar pós pesquisa", turnOff = "Manter ligado", turnOn = "Desligar" },
+            TurnOfComputer = new OptionText() { mainDescription = "Desligar computador", turnOff = "Manter ligado", turnOn = "Desligar" },
             UpdateThePage = new OptionText() { mainDescription = "Atualizar página", turnOff = "Apenas pesquisar", turnOn = "Atualizar" },
             MainButton = "Começar",
             Log = "Log",
@@ -191,6 +194,8 @@ namespace WindowsApp
             try
             {
                 var listNumber = SelectedSearchListOption;
+                var oi = TurnOffComputer;
+                return;
 
                 List<string> listOfSearchText = new();
 
