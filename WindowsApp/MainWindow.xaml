@@ -14,7 +14,7 @@
         <DesktopAcrylicBackdrop/>
     </Window.SystemBackdrop>
 
-    <Grid>
+    <Grid x:Name="root" RequestedTheme="Default">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="*"/>
@@ -92,9 +92,12 @@
                             Text="{x:Bind ViewModel.frontText.ProjectVersion, Mode=OneWay}"/>
                 </StackPanel>
 
-                <Image Source="/Assets/android-chrome-512x512.png"
-                        Grid.Column="0"
-                        Height="60"/>
+                <Button Height="60" Padding="0" Grid.Column="0" Click="btnTottleTheme_click">
+                    <Image Source="/Assets/android-chrome-512x512.png"
+                        
+                       />
+                </Button>
+                
 
             </Grid>
 

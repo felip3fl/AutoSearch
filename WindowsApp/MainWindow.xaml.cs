@@ -38,6 +38,11 @@ namespace WindowsApp
             LoadingSelectedList();
         }
 
+        private void btnTottleTheme_click(object sender, RoutedEventArgs e)
+        {
+            root.RequestedTheme = root.RequestedTheme == ElementTheme.Dark ? ElementTheme.Light : ElementTheme.Dark;
+        }
+
         private void TurnOnExtendsContentIntoTitleBar() {
             ExtendsContentIntoTitleBar = true;
         }
