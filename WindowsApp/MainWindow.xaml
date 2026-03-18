@@ -13,8 +13,33 @@
     <Window.SystemBackdrop>
         <DesktopAcrylicBackdrop/>
     </Window.SystemBackdrop>
-
+    
     <Grid x:Name="root" RequestedTheme="Default">
+        <Grid.Resources>
+            <DataTemplate x:Key="DefaultSearchList" x:DataType="local:Record">
+                <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal">
+
+                    <SymbolIcon Symbol="AllApps"
+                                            Margin="0,0,10,0"/>
+                    <TextBlock Grid.Column="1"
+                                        Text="{x:Bind Name}"
+                                           FontWeight="SemiBold"
+                                           FontSize="14"
+                                           Margin="0,0,10,0"/>
+                    <TextBlock
+                                    Text="{x:Bind Size}" 
+                                    Margin="0,2,0,0"
+                                    FontSize="12"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                    <TextBlock
+                                    Text=" lines"
+                                    Margin="0,2,0,0"
+                                    FontSize="12"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                </StackPanel>
+            </DataTemplate>
+        </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="*"/>
@@ -165,38 +190,11 @@
                           PlaceholderText="Selecione a lista"
                           HorizontalAlignment="Stretch"
                           SelectedValue="{x:Bind ViewModel.SelectedSearchListOption, Mode=TwoWay}"
-                          ItemsSource="{x:Bind ViewModel.searchListOption}">
-
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="local:Record">
-
-                            <StackPanel Grid.Column="1"
-                                    Orientation="Horizontal">
-
-                                <SymbolIcon Symbol="AllApps"
-                                            Margin="0,0,10,0"/>
-                                <TextBlock Grid.Column="1"
-                                        Text="{x:Bind Name}"
-                                           FontWeight="SemiBold"
-                                           FontSize="14"
-                                           Margin="0,0,10,0"/>
-                                <TextBlock
-                                    Text="{x:Bind Size}"
-                                    Margin="0,2,0,0"
-                                    FontSize="12"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
-                                <TextBlock
-                                    Text=" lines"
-                                    Margin="0,2,0,0"
-                                    FontSize="12"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
-                            </StackPanel>
+                          ItemsSource="{x:Bind ViewModel.searchListOption, Mode=OneWay}"
+                          ItemTemplate="{StaticResource DefaultSearchList}"
+                          />
 
 
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-
-                </ComboBox>
 
             </Grid>
 
