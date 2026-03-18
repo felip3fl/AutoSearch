@@ -12,6 +12,15 @@
             </ResourceDictionary.MergedDictionaries>
             <Thickness x:Key="GlobalLayoutMargin">10</Thickness>
             <!-- Other app resources here -->
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="FontColorBrush" Color="#1c1c1c"></SolidColorBrush>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="FontColorBrush" Color="#fff"></SolidColorBrush>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -84,6 +84,7 @@
                         Padding="0,0,0,4">
                     <TextBlock x:Name="txtCaminhoArquivoas"
                             FontSize="20"
+                            Foreground="{ThemeResource FontColorBrush}"
                             FontWeight="Bold"
                             Text="{x:Bind ViewModel.frontText.ProjectName , Mode=OneWay}"/>
                     <TextBlock TextWrapping="Wrap"
@@ -94,7 +95,6 @@
 
                 <Button Height="60" Padding="0" Grid.Column="0" Click="btnTottleTheme_click">
                     <Image Source="/Assets/android-chrome-512x512.png"
-                        
                        />
                 </Button>
                 
