@@ -194,8 +194,6 @@ namespace WindowsApp
             try
             {
                 var listNumber = SelectedSearchListOption;
-                var oi = TurnOffComputer;
-                return;
 
                 List<string> listOfSearchText = new();
 

@@ -22,10 +22,11 @@ namespace WindowsApp
         private WindowId windowId;
         private Microsoft.UI.Windowing.AppWindow appWindow = null!;
         private IntPtr windowHandle;
-        public MainViewModel ViewModel { get; set; } = new MainViewModel();
+        public MainViewModel ViewModel { get; }
 
-        public MainWindow()
+        public MainWindow(MainViewModel viewModel)
         {
+            ViewModel = viewModel;
             InitializeComponent();
             LoadingWindowID();
 
