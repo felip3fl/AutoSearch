@@ -106,6 +106,6 @@
     <AssemblyName>FLexSearch</AssemblyName>
     <AssemblyTitle>FLexSearch</AssemblyTitle>
     <IncrementVersionOnBuild>1.yy.Mdd.Hmm</IncrementVersionOnBuild>
-    <Version>1.26.318.2010</Version>
+    <Version>1.26.319.2203</Version>
   </PropertyGroup>
 </Project>

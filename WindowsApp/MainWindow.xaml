@@ -140,6 +140,14 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
+                <Grid.Resources>
+                    <Style x:Key="SubTextBoxStyle" TargetType="TextBlock">
+                        <Setter Property="Padding" Value="10,0,0,00"/>
+                        <Setter Property="FontSize" Value="11"/>
+                        <Setter Property="Foreground" Value="#666"/>
+                    </Style>
+                </Grid.Resources>
+
                 <NumberBox
                     x:Name="nbHowManySearch"
                     Header="{x:Bind ViewModel.frontText.HowManySearch}"
@@ -151,12 +159,10 @@
                     ValueChanged="{x:Bind ViewModel.HowManySearchSubTextUpdate}"
                     LargeChange="100"/>
 
-                <TextBlock Padding="10,0,0,00"
+                <TextBlock Style="{StaticResource SubTextBoxStyle}"
                         Grid.Row="1"
                         Grid.Column="0"
                         x:Name="txtHowManySearch"
-                        FontSize="11"
-                        Foreground="#666"
                         Text="{x:Bind ViewModel.frontText.HowManySearchSubText, Mode=OneWay}"/>
 
                 <NumberBox
@@ -170,12 +176,10 @@
                     SmallChange="30"
                     LargeChange="100"/>
 
-                <TextBlock Padding="10,0,0,0"
+                <TextBlock Style="{StaticResource SubTextBoxStyle}"
                         Grid.Row="1"
                         Grid.Column="1"
                         x:Name="txtTimeBetweenSearch"
-                        FontSize="11"
-                        Foreground="#666"
                         Text="{x:Bind ViewModel.frontText.HowLongSubText, Mode=OneWay}"/>
 
             </Grid>
