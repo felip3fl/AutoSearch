@@ -141,9 +141,11 @@
                 </Grid.RowDefinitions>
 
                 <Grid.Resources>
-                    <Style x:Key="SubTextBoxStyle" TargetType="TextBlock">
-                        <Setter Property="Padding" Value="10,0,0,00"/>
+                    <Style x:Key="BaseSubTextBoxStyle" TargetType="TextBlock">
                         <Setter Property="FontSize" Value="11"/>
+                    </Style>
+                    <Style x:Key="SubTextBoxStyle" TargetType="TextBlock" BasedOn="{StaticResource BaseSubTextBoxStyle}">
+                        <Setter Property="Padding" Value="10,0,0,00"/>
                         <Setter Property="Foreground" Value="#666"/>
                     </Style>
                 </Grid.Resources>
