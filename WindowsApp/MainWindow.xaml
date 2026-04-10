@@ -13,7 +13,7 @@
     <Window.SystemBackdrop>
         <DesktopAcrylicBackdrop/>
     </Window.SystemBackdrop>
-    
+
     <Grid x:Name="root" RequestedTheme="Default">
         <Grid.Resources>
             <DataTemplate x:Key="DefaultSearchList" x:DataType="local:Record">
@@ -157,6 +157,7 @@
                     Grid.Column="0"
                     Grid.Row="0"
                     SpinButtonPlacementMode="Inline"
+                    PlaceholderText="Put a number"
                     SmallChange="1"
                     ValueChanged="{x:Bind ViewModel.HowManySearchSubTextUpdate}"
                     LargeChange="100"/>

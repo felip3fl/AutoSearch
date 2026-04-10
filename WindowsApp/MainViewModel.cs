@@ -31,11 +31,8 @@ namespace WindowsApp
 
         public List<string> logs = new();
 
-
         [ObservableProperty]
         public partial int HowLongTime { get; set; } = 60;
-
-
 
         public Record SelectedSearchListOption { get; set; } = new ();
 
@@ -53,7 +50,6 @@ namespace WindowsApp
 
         [ObservableProperty]
         public List<Record> searchListOption = localFile.GetListFileName("Lists\\v1");
-
 
         public int searchDone = 0;
 
@@ -116,11 +112,12 @@ namespace WindowsApp
             UpdateEstimatedTime(HowManySeacrh, timeInSeconds);
         }
 
-        public void UpdateEstimatedTime(int searchQuantity, int HowLongTime)
+        public void UpdateEstimatedTime(int searchQuantity, int howLongTime)
         {
-            var totalTimeInSeconds = searchQuantity * HowLongTime;
+            var totalTimeInSeconds = searchQuantity * howLongTime;
             var duration = TimeSpan.FromSeconds(totalTimeInSeconds);
             frontText.HowManySearchSubText = $"Duração total: {duration.ToString(@"hh\hmm\m")}";
+            _superAutomateSearch.SetTimeInterval(howLongTime);
         }
 
         public void UpdateTotalTime(int timeInSeconds)
@@ -151,6 +148,8 @@ namespace WindowsApp
 
             _superAutomateSearch.processCompleted += CompleteProcess;
             _superAutomateSearch.runningSearch += UpdateLog;
+            _superAutomateSearch.SetTimeInterval(HowLongTime);
+
             AddCommand = new DelegateCommand(StartSearch);
             SelectedSearchListOption = LoadingSelectedList();
         }
@@ -160,7 +159,7 @@ namespace WindowsApp
         private void UpdateLog(object? sender, string e)
         {
             searchDone++;
-            var newValue = $"[{DateTime.Now.ToLongTimeString()}] {SelectedSearchListOption.Name} {searchDone}/{30} - {e}";
+            var newValue = $"[{DateTime.Now.ToLongTimeString()}] {SelectedSearchListOption.Name} {searchDone}/{HowManySeacrh} - {e}";
             addValue(newValue);
         }
 
@@ -184,7 +183,7 @@ namespace WindowsApp
             IsRunning = !IsRunning;
             UpdateRunningStatus();
 
-            Task.Run(async () => _superAutomateSearch.SearchAsync(listOfSearchText, timeInterval));
+            Task.Run(async () => _superAutomateSearch.SearchAsync(listOfSearchText));
                 
         }
 
@@ -223,7 +222,7 @@ namespace WindowsApp
                 IsRunning = !IsRunning;
                 UpdateRunningStatus();
 
-                Task.Run(async () => _superAutomateSearch.SearchAsync(listOfSearchText, timeInterval));
+                Task.Run(async () => _superAutomateSearch.SearchAsync(listOfSearchText));
 
             }
             catch (Exception error)

@@ -15,6 +15,12 @@ public class AutomateSearch
 
     public event EventHandler processCompleted;
     public event EventHandler<string> runningSearch;
+    private int timeInterval  = 0;
+
+    public void SetTimeInterval(int newTimeInterval)
+    {
+        timeInterval = newTimeInterval;
+    }
 
     public string DrawName(List<string> listOfSearch)
     {
@@ -55,7 +61,7 @@ public class AutomateSearch
         excludedNumbers.Add(numberToExclude);
     }
 
-    public async void SearchAsync(List<string> listOfSearchText, int timeInterval)
+    public async void SearchAsync(List<string> listOfSearchText)
     {
         var threadSleep = 5;
         foreach (var item in listOfSearchText)
