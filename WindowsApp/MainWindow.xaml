@@ -15,7 +15,9 @@
     </Window.SystemBackdrop>
 
     <Grid x:Name="root" RequestedTheme="Default">
+        
         <Grid.Resources>
+
             <DataTemplate x:Key="DefaultSearchList" x:DataType="local:Record">
                 <StackPanel Grid.Column="1"
                                     Orientation="Horizontal">
@@ -60,10 +62,19 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="/Resources/Styles.xaml"/>
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </Grid.Resources>
+
             <StackPanel Grid.Row="0">
                 <TextBlock Margin="15,20,20,15"
                         FontSize="20"
                         FontWeight="Bold"
+                           Foreground="{StaticResource FontColorBrushOrange}"
                         Text="Logs"/>
             </StackPanel>
 

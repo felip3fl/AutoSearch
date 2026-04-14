@@ -79,6 +79,9 @@
     <None Update="Lists\v1\Word.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Resources\Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\HeaderControl.xaml">
@@ -106,6 +109,6 @@
     <AssemblyName>FLexSearch</AssemblyName>
     <AssemblyTitle>FLexSearch</AssemblyTitle>
     <IncrementVersionOnBuild>1.yy.Mdd.Hmm</IncrementVersionOnBuild>
-    <Version>1.26.409.2103</Version>
+    <Version>1.26.414.1149</Version>
   </PropertyGroup>
 </Project>
