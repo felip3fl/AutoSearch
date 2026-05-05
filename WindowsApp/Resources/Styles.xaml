@@ -4,6 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     >
 
-    <SolidColorBrush x:Key="FontColorBrushOrange" Color="#F05A28"></SolidColorBrush>
+    <SolidColorBrush x:Key="FontColorBrushOrange" Color="#1c1c1c"></SolidColorBrush>
 
 </ResourceDictionary>
