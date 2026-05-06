@@ -2,13 +2,17 @@
 using CommunityToolkit.Mvvm.Input;
 using LocalFile;
 using LocalFile.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.UI.Xaml.Controls;
 using Search;
+using Search.Models;
 using Search.Tools;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -21,6 +25,7 @@ namespace WindowsApp
 {
     public partial class MainViewModel : ObservableObject
     {
+        public EmailSettings emailSettings;
 
 
         static JsonLocalFile localFile = new();
@@ -152,6 +157,13 @@ namespace WindowsApp
 
             AddCommand = new DelegateCommand(StartSearch);
             SelectedSearchListOption = LoadingSelectedList();
+
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+
+            emailSettings = config.GetSection("EmailSettings").Get<EmailSettings>() ?? new EmailSettings();
         }
 
         public DelegateCommand AddCommand { get; set; }
