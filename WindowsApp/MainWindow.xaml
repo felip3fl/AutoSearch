@@ -229,15 +229,15 @@
                     <ToggleSwitch x:Name="tgsTurnOffComputer"
                             Header="{x:Bind ViewModel.frontText.TurnOfComputer.mainDescription}"
                             IsOn="{x:Bind ViewModel.TurnOffComputer, Mode=TwoWay}"
-                            OffContent="{x:Bind ViewModel.frontText.TurnOfComputer.turnOn}"
-                            OnContent="{x:Bind ViewModel.frontText.TurnOfComputer.turnOff}"/>
+                            OffContent="{x:Bind ViewModel.frontText.TurnOfComputer.turnOff}"
+                            OnContent="{x:Bind ViewModel.frontText.TurnOfComputer.turnOn}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal"
                         Grid.Column="3">
                     <ToggleSwitch x:Name="tgsUpdatePage"
                             Header="{x:Bind ViewModel.frontText.UpdateThePage.mainDescription}"
-                            OffContent="{x:Bind ViewModel.frontText.UpdateThePage.turnOn}"
-                            OnContent="{x:Bind ViewModel.frontText.UpdateThePage.turnOff}"
+                            OffContent="{x:Bind ViewModel.frontText.UpdateThePage.turnOff}"
+                            OnContent="{x:Bind ViewModel.frontText.UpdateThePage.turnOn}"
                             IsOn="True"/>
                 </StackPanel>
 
