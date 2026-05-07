@@ -14,6 +14,7 @@ public class AutomateSearch
     static bool IsRunning = true;
 
     public event EventHandler processCompleted;
+    public event EventHandler errorTask;
     public event EventHandler<string> runningSearch;
     private int timeInterval  = 0;
 

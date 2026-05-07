@@ -30,6 +30,7 @@ namespace WindowsApp
 
         static JsonLocalFile localFile = new();
         static AutomateSearch automateSearch = new();
+        static EmailService _emailService = new(new());
 
         [ObservableProperty]
         public partial List<string> loog { get; set; } = new() {"Os logs serão exibidos aqui"};
@@ -161,9 +162,11 @@ namespace WindowsApp
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddUserSecrets<MainViewModel>()
                 .Build();
 
             emailSettings = config.GetSection("EmailSettings").Get<EmailSettings>() ?? new EmailSettings();
+            _emailService = new EmailService(emailSettings);
         }
 
         public DelegateCommand AddCommand { get; set; }
