@@ -31,7 +31,7 @@ namespace WindowsApp
         static JsonLocalFile localFile = new();
         static AutomateSearch automateSearch = new();
         static EmailService _emailService = new(new());
-
+        
         [ObservableProperty]
         public partial List<string> loog { get; set; } = new() {"Os logs serão exibidos aqui"};
 
@@ -73,7 +73,7 @@ namespace WindowsApp
             HowLong = "Tempo em segundos",
             HowLongSubText = "Tempo em segundos",
             ListOfSearchOption = "Lista de pesquisa:",
-            TurnOfComputer = new OptionText() { mainDescription = "Desligar computador", turnOff = "Manter ligado", turnOn = "Desligar" },
+            TurnOfComputer = new OptionText() { mainDescription = "Sim", turnOff = "Não", turnOn = "Desligar" },
             UpdateThePage = new OptionText() { mainDescription = "Atualizar página", turnOff = "Apenas pesquisar", turnOn = "Atualizar" },
             MainButton = "Começar",
             Log = "Log",
@@ -153,6 +153,7 @@ namespace WindowsApp
             UpdateRunningStatus();
 
             _superAutomateSearch.processCompleted += CompleteProcess;
+            _superAutomateSearch.errorTask += ErrorProcess;
             _superAutomateSearch.runningSearch += UpdateLog;
             _superAutomateSearch.SetTimeInterval(HowLongTime);
 
@@ -187,9 +188,20 @@ namespace WindowsApp
                 _uiContext.Post(_ => loog = new( logs), null);
         }
 
-        private void CompleteProcess(object sender, EventArgs e)
+        private async void CompleteProcess(object sender, EventArgs e)
         {
-            _cmdExecutor.ShutDownComputer(20);
+            await _emailService.SendEmailAsync("felip3.fl@gmail.com", "FLex auto search - Processo Concluído", "Processo concluído com sucesso.");
+
+            var newValue = $"[{DateTime.Now.ToLongTimeString()}] Pesquisa finalizada";
+            addValue(newValue);
+
+            if (TurnOffComputer) 
+                _cmdExecutor.ShutDownComputer(60);
+        }
+
+        private async void ErrorProcess(object sender, EventArgs e)
+        {
+            await _emailService.SendEmailAsync("felip3.fl@gmail.com", "FLex auto search - Falha", "Ocorreu um erro durante o processo.");
         }
         
         public async Task StartSearch(List<string> listOfSearchText, int timeInterval)
