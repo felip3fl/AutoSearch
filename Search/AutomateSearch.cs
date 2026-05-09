@@ -62,6 +62,11 @@ public class AutomateSearch
         excludedNumbers.Add(numberToExclude);
     }
 
+    public void UpdateRunningStatus(bool value)
+    {
+        IsRunning = value;
+    }
+
     public async void SearchAsync(List<string> listOfSearchText)
     {
         var threadSleep = 5;

@@ -46,7 +46,7 @@ namespace WindowsApp
         public partial int HowManySeacrh { get; set; } = 30;
 
         [ObservableProperty]
-        public partial string Status { get; set; } = "Start";
+        public partial string Status { get; set; } = "Iniciar";
 
         [ObservableProperty]
         public partial bool IsRunning { get; set; } = false;
@@ -73,7 +73,7 @@ namespace WindowsApp
             HowLong = "Tempo em segundos",
             HowLongSubText = "Tempo em segundos",
             ListOfSearchOption = "Lista de pesquisa:",
-            TurnOfComputer = new OptionText() { mainDescription = "Sim", turnOff = "Não", turnOn = "Desligar" },
+            TurnOfComputer = new OptionText() { mainDescription = "Desligar computator", turnOff = "Não", turnOn = "Sim" },
             UpdateThePage = new OptionText() { mainDescription = "Atualizar página", turnOff = "Apenas pesquisar", turnOn = "Atualizar" },
             MainButton = "Começar",
             Log = "Log",
@@ -139,12 +139,26 @@ namespace WindowsApp
             return searchListOption[dayOfWeek];
         }
 
-        public void UpdateRunningStatus()
+        public async void UpdateRunningStatus(bool isRunning)
         {
-            Status = "Start";
+            if (isRunning)
+            {
+                addValue("Iniciando pesquisa em 5 segundos");
+                Status = "Parar pesquisa";
+                return;
+            }
 
-            if (IsRunning)
-                Status = "Stop search";
+            Status = "Iniciar";
+            addValue("Pesquisa interrompida");
+
+        }
+
+        private async void ChangeRunningStatus()
+        {
+            IsRunning = !IsRunning;
+            _superAutomateSearch.UpdateRunningStatus(IsRunning);
+
+            UpdateRunningStatus(IsRunning);
         }
 
         public MainViewModel()
@@ -190,6 +204,8 @@ namespace WindowsApp
 
         private async void CompleteProcess(object sender, EventArgs e)
         {
+            ChangeRunningStatus();
+
             await _emailService.SendEmailAsync("felip3.fl@gmail.com", "FLex auto search - Processo Concluído", "Processo concluído com sucesso.");
 
             var newValue = $"[{DateTime.Now.ToLongTimeString()}] Pesquisa finalizada";
@@ -201,14 +217,16 @@ namespace WindowsApp
 
         private async void ErrorProcess(object sender, EventArgs e)
         {
+            ChangeRunningStatus();
             await _emailService.SendEmailAsync("felip3.fl@gmail.com", "FLex auto search - Falha", "Ocorreu um erro durante o processo.");
+
+            if (TurnOffComputer)
+                _cmdExecutor.ShutDownComputer(120);
         }
         
         public async Task StartSearch(List<string> listOfSearchText, int timeInterval)
         {
-            addValue("Iniciando pesquisa em 5 segundos");
-            IsRunning = !IsRunning;
-            UpdateRunningStatus();
+            ChangeRunningStatus();
 
             Task.Run(async () => _superAutomateSearch.SearchAsync(listOfSearchText));
                 
@@ -219,6 +237,12 @@ namespace WindowsApp
 
             try
             {
+                ChangeRunningStatus();
+
+                if (!IsRunning)
+                    return;
+                
+
                 var listNumber = SelectedSearchListOption;
 
                 List<string> listOfSearchText = new();
@@ -244,10 +268,6 @@ namespace WindowsApp
                 {
                     listOfSearchText.Add(automateSearch.DrawName(listFileContent));
                 }
-
-                addValue("Iniciando pesquisa em 5 segundos");
-                IsRunning = !IsRunning;
-                UpdateRunningStatus();
 
                 Task.Run(async () => _superAutomateSearch.SearchAsync(listOfSearchText));
 
