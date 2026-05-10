@@ -83,6 +83,14 @@ public class AutomateSearch
 
             runningSearch?.Invoke(this, item);
             SearchAndUpdatePage(item, timeInterval);
+            Thread.Sleep(3000);
+
+            if (CheckThereIsSearchError(item))
+            {
+                IsRunning = false;
+                errorTask?.Invoke(this, EventArgs.Empty);
+                return;
+            }
         }
 
         processCompleted?.Invoke(this, EventArgs.Empty);
@@ -103,6 +111,28 @@ public class AutomateSearch
         keyTools.SendCtrlV();
         keyTools.SendEnter();
 
+        clipboard.SetTextClipboard("");
+
+    }
+
+    public bool CheckThereIsSearchError(string selectedValue)
+    {
+        var mousePositionX = 260;
+        var mousePositiony = 130;
+
+
+        mouseTools.MoveMouse(mousePositionX, mousePositiony, 500);
+        mouseTools.MouseClick(mousePositionX, mousePositiony, 200);
+
+        
+        keyTools.SendCtrlA();
+        keyTools.SendCtrlC(1000);
+
+        var currentyValue = clipboard.GetTextClipboard();
+
+        var isDifferent = currentyValue != selectedValue;
+
+        return isDifferent;
     }
 
 }
