@@ -164,7 +164,6 @@ namespace WindowsApp
         public MainViewModel()
         {   
             _uiContext = SynchronizationContext.Current!;
-            UpdateRunningStatus();
 
             _superAutomateSearch.processCompleted += CompleteProcess;
             _superAutomateSearch.errorTask += ErrorProcess;

@@ -33,7 +33,7 @@ namespace WindowsApp
             TurnOnExtendsContentIntoTitleBar();
             FixWindowSize();
             CenterWindow();
-            DisableMaximizeButton();
+            
             WindowAlwaysOnTop();
 
             LoadingSelectedList();
