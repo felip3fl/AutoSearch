@@ -55,7 +55,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Background="#26000000"
+        <Grid Background="{ThemeResource DefaultBackgroundColor}"
                 Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -74,7 +74,7 @@
                 <TextBlock Margin="15,20,20,15"
                         FontSize="20"
                         FontWeight="Bold"
-                           Foreground="{StaticResource FontColorBrushOrange}"
+                           Foreground="{ThemeResource FontColorBrushTitle}"
                         Text="Logs"/>
             </StackPanel>
 

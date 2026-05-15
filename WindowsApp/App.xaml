@@ -14,10 +14,12 @@
             <!-- Other app resources here -->
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="FontColorBrush" Color="#1c1c1c"></SolidColorBrush>
+                    <SolidColorBrush x:Key="FontColorBrush" Color="#140307"></SolidColorBrush>
+                    <SolidColorBrush x:Key="DefaultBackgroundColor" Color="#33000000"></SolidColorBrush>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <SolidColorBrush x:Key="FontColorBrush" Color="#fff"></SolidColorBrush>
+                    <SolidColorBrush x:Key="DefaultBackgroundColor" Color="#26000000"></SolidColorBrush>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
             
