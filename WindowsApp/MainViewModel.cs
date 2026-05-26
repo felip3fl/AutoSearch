@@ -9,13 +9,9 @@ using Search.Models;
 using Search.Tools;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using WindowsApp.Command;
@@ -25,22 +21,22 @@ namespace WindowsApp
 {
     public partial class MainViewModel : ObservableObject
     {
+        public Record SelectedSearchListOption { get; set; } = new();
         public EmailSettings emailSettings;
-
-
         static JsonLocalFile localFile = new();
         static AutomateSearch automateSearch = new();
         static EmailService _emailService = new(new());
-        
-        [ObservableProperty]
-        public partial List<string> loog { get; set; } = new() {"Os logs serão exibidos aqui"};
-
+        public int searchDone = 0;
+        private CmdExecutor _cmdExecutor = new();
+        private AutomateSearch _superAutomateSearch = new();
+        private readonly SynchronizationContext _uiContext;
         public List<string> logs = new();
 
         [ObservableProperty]
-        public partial int HowLongTime { get; set; } = 60;
+        public partial List<string> loog { get; set; } = new() {"Os logs serão exibidos aqui"};
 
-        public Record SelectedSearchListOption { get; set; } = new ();
+        [ObservableProperty]
+        public partial int HowLongTime { get; set; } = 60;
 
         [ObservableProperty]
         public partial int HowManySeacrh { get; set; } = 30;
@@ -57,12 +53,7 @@ namespace WindowsApp
         [ObservableProperty]
         public List<Record> searchListOption = localFile.GetListFileName("Lists\\v1");
 
-        public int searchDone = 0;
 
-        private CmdExecutor _cmdExecutor = new();
-        private AutomateSearch _superAutomateSearch = new();
-
-        private readonly SynchronizationContext _uiContext;
 
         public  FrontText frontText { get; set; } = new()
         {
