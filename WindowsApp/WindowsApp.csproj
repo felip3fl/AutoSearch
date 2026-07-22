@@ -116,7 +116,7 @@
     <AssemblyName>FLexSearch</AssemblyName>
     <AssemblyTitle>FLexSearch</AssemblyTitle>
     <IncrementVersionOnBuild>1.yy.Mdd.Hmm</IncrementVersionOnBuild>
-    <Version>1.26.526.1352</Version>
+    <Version>1.26.722.1428</Version>
     <UserSecretsId>36a12e19-fa96-44d3-a99c-80f1dc49b5e3</UserSecretsId>
   </PropertyGroup>
 </Project>
