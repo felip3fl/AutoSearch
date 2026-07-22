@@ -14,6 +14,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.UI;
 using WindowsApp.Command;
 using WindowsApp.Model;
 
@@ -135,13 +136,20 @@ namespace WindowsApp
             if (isRunning)
             {
                 addValue("Iniciando pesquisa em 5 segundos");
-                Status = "Parar pesquisa";
+                updateStatus("Parar pesquisa");
                 return;
             }
 
-            Status = "Iniciar";
+            updateStatus("Iniciar");
             addValue("Pesquisa interrompida");
+        }
 
+        private void updateStatus(string value)
+        {
+            if (SynchronizationContext.Current == _uiContext)
+                Status = value;
+            else
+                _uiContext.Post(_ => Status = value, null);
         }
 
         private async void ChangeRunningStatus()
