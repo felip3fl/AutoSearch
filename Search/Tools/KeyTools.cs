@@ -47,6 +47,11 @@
             SendKeyCombination("{HOME}", timeSleepBefore, timeSleepAfter);
         }
 
+        public void SendEsc(int timeSleepBefore = DefaultTimeSleepBefore, int timeSleepAfter = DefaulttimeSleepAfter)
+        {
+            SendKeyCombination("{ESC}", timeSleepBefore, timeSleepAfter);
+        }
+
         public void SendF5(int timeSleepBefore = DefaultTimeSleepBefore, int timeSleepAfter = DefaulttimeSleepAfter)
         {
             SendKeyCombination("{F5}", timeSleepBefore, timeSleepAfter);

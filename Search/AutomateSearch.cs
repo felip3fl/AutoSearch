@@ -127,12 +127,14 @@ public class AutomateSearch
         
         keyTools.SendCtrlA();
         keyTools.SendCtrlC(1000);
+        keyTools.SendEsc(500);
 
-        var currentyValue = clipboard.GetTextClipboard();
+        var currentyValue = clipboard.GetTextClipboard().ToUpper();
+        var selectedValueUpper = selectedValue.ToUpper();
 
-        var isDifferent = currentyValue != selectedValue;
+        var foundValue = selectedValueUpper.Contains(currentyValue);
 
-        return isDifferent;
+        return !foundValue;
     }
 
 }
