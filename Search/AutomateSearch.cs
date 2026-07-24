@@ -85,12 +85,12 @@ public class AutomateSearch
             SearchAndUpdatePage(item, timeInterval);
             Thread.Sleep(3000);
 
-            if (CheckThereIsSearchError(item))
-            {
-                IsRunning = false;
-                errorTask?.Invoke(this, EventArgs.Empty);
-                return;
-            }
+            //if (CheckThereIsSearchError(item))
+            //{
+            //    IsRunning = false;
+            //    errorTask?.Invoke(this, EventArgs.Empty);
+            //    return;
+            //}
         }
 
         processCompleted?.Invoke(this, EventArgs.Empty);
