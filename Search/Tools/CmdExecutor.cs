@@ -38,7 +38,7 @@ public class CmdExecutor
     public void ShutDownComputer(int timeInSeconds)
     {
         var timeInSecondsString = timeInSeconds;
-        ExecuteCmdCommand($"shutdown -s -f -t {timeInSecondsString}");
+        ExecuteCmdCommand($"shutdown -g -f -t {timeInSecondsString}");
     }
 
     public void StopShutDownComputer()
