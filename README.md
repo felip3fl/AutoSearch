@@ -1,4 +1,4 @@
-<h3 align="center"> <img src="https://github.com/felip3fl/FL_PERDU/assets/20684484/f074b59a-a248-4bd3-af2d-330062cbd3ab" width="160px" align="center" ><BR><BR>Auto Search
+<h3 align="center"> <img src="https://raw.githubusercontent.com/felip3fl/felip3fl/e256871aed7152744a70c084506f959d3a6e34a1/Material/FL/FLmetroDefault.svg" width="160px" align="center" ><BR><BR>Auto Search
 <BR><BR>
 <img src="https://img.shields.io/badge/STATUS-FINALIZADO-ff265c">
 <img src="https://img.shields.io/badge/PROJECT%20VERSION-1.25.02.11-ff262f">
